@@ -1,0 +1,843 @@
+ 
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Learn how to use query parameters in FastAPI with real-world examples. Understand optional parameters, default values, validation, filtering, pagination, and best practices." name="description" />
+<meta content="FastAPI query parameters, FastAPI tutorial, query parameter example, FastAPI filtering, FastAPI pagination, optional parameters FastAPI, API query string" name="keywords" />
+<meta content="Sherullah Mohtat" name="author" />
+<meta content="index, follow" name="robots" />
+
+    <title>Query Parameters in FastAPI &#8212; FastAPI</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=873836d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/style.css?v=d6ed2d86" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67d5fe8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ad_style.css?v=34d129f9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/navbar-scroll.css?v=4d5946c0" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f9c1cefe"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fastapi/query_parameters';</script>
+    <script src="../_static/js/custom.js?v=6f0278c6"></script>
+    <script src="../_static/js/navbar-scroll.js?v=cb524ae2"></script>
+    <link rel="icon" href="../_static/sherullah.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Request Body in FastAPI" href="request_body.html" />
+    <link rel="prev" title="Path Parameters in FastAPI" href="path_parameters.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+  ><iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-P4GQM59"
+    height="0"
+    width="0"
+    style="display: none; visibility: hidden"
+  ></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav class="dask-nav container-fluid">
+  <ul>
+    <li class="logo">
+      <a href="https://docs.dask.org/">
+        <img
+          class="caption"
+          src="../_static/images/dask-horizontal-white.svg"
+        />
+      </a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/">Dask</a>
+    </li>
+
+    <li>
+      <a href="https://distributed.dask.org/">Distributed</a>
+    </li>
+
+    <li>
+      <a href="https://ml.dask.org/">Dask ML</a>
+    </li>
+
+    <li>
+      <a href="https://examples.dask.org/">Examples</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/ecosystem.html">Ecosystem</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/support.html">Community</a>
+    </li>
+  </ul>
+</nav>
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+<nav class="dask-nav container-fluid navbar-scroll-wrap">
+
+    <!-- Left arrow -->
+  <button class="scroll-btn scroll-left" id="navLeft" aria-label="Scroll left">
+    &#10094;
+  </button>
+
+  <ul class="nav-scroll" id="nav-scroll">
+
+    <!-- Home = external site
+    <li>
+      <a href="" target="_blank" rel="noopener" class="nav-icon">
+        <img src="../_static/images/logo/home48.png" alt="Home" />
+      </a>
+    </li>
+ -->
+    <!-- pathto inside repository project-->
+    <li class="">
+      <a href="../index.html">FastAPI</a>
+    </li>
+  </ul>
+
+
+  <!-- Right arrow -->
+  <button class="scroll-btn scroll-right" id="navRight" aria-label="Scroll right">
+    &#10095;
+  </button>
+</nav>
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="_static/images/dask-horizontal-white.svg">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">FastAPI</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">FastAPI Framework</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment_setup.html">Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding_core_concepts.html">Understanding Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path_parameters.html">Path Parameters in FastAPI</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Query Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_body.html">Request Body in FastAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Query Parameters in FastAPI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-query-parameters">1. What are Query Parameters?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-example">2. Basic Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-vs-optional-parameters">3. Required vs Optional Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#required-parameter">Required Parameter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-parameter">Optional Parameter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-query-parameters">4. Multiple Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-types-and-conversion">5. Data Types and Conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">6. Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example-filtering">7. Real-World Example (Filtering)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagination-example">8. Pagination Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-query-parameters">9. Boolean Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-parameters-with-pydantic-advanced">10. Query Parameters with Pydantic (Advanced)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-vs-query-parameters">11. Path Parameters vs Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">12. Common Mistakes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">13. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">14. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-it-yourself">15. Try It Yourself</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="query-parameters-in-fastapi">
+<h1>Query Parameters in FastAPI<a class="headerlink" href="#query-parameters-in-fastapi" title="Link to this heading">#</a></h1>
+<p>Query parameters allow you to send extra information to your API through the URL.</p>
+<p>They are different from path parameters because they are not part of the URL path itself. Instead, they are added at the end of the URL after a question mark (<code class="docutils literal notranslate"><span class="pre">?</span></code>).</p>
+<p>Query parameters are commonly used for:</p>
+<ul class="simple">
+<li><p>filtering data (e.g., category, price)</p></li>
+<li><p>searching (e.g., keyword)</p></li>
+<li><p>pagination (e.g., page number, size)</p></li>
+<li><p>controlling output (e.g., sort order)</p></li>
+</ul>
+<hr class="docutils" />
+<section id="what-are-query-parameters">
+<h2>1. What are Query Parameters?<a class="headerlink" href="#what-are-query-parameters" title="Link to this heading">#</a></h2>
+<p>Query parameters appear after the <code class="docutils literal notranslate"><span class="pre">?</span></code> in a URL and are written as key-value pairs.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/products?category=electronics&amp;limit=5
+</pre></div>
+</div>
+<p>Let’s understand this step by step:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">category=electronics</span></code> → tells the API to show only electronics</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limit=5</span></code> → tells the API to return only 5 results</p></li>
+</ul>
+<p>So the path <code class="docutils literal notranslate"><span class="pre">/products</span></code> stays the same, but the query parameters change how the data is returned.</p>
+</section>
+<hr class="docutils" />
+<section id="basic-example">
+<h2>2. Basic Example<a class="headerlink" href="#basic-example" title="Link to this heading">#</a></h2>
+<p>Let’s create a simple API endpoint that uses a query parameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/items&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_items</span><span class="p">(</span><span class="n">limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/items?limit=10
+</pre></div>
+</div>
+<p>What happens internally:</p>
+<ol class="arabic simple">
+<li><p>The URL sends <code class="docutils literal notranslate"><span class="pre">limit=&quot;10&quot;</span></code> (as text)</p></li>
+<li><p>FastAPI sees <code class="docutils literal notranslate"><span class="pre">limit:</span> <span class="pre">int</span></code></p></li>
+<li><p>It converts <code class="docutils literal notranslate"><span class="pre">&quot;10&quot;</span></code> → <code class="docutils literal notranslate"><span class="pre">10</span></code> (integer)</p></li>
+<li><p>The function receives the value</p></li>
+</ol>
+<p>Response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This shows how FastAPI reads query parameters and passes them into your function.</p>
+</section>
+<hr class="docutils" />
+<section id="required-vs-optional-parameters">
+<h2>3. Required vs Optional Parameters<a class="headerlink" href="#required-vs-optional-parameters" title="Link to this heading">#</a></h2>
+<p>Query parameters can be either required or optional depending on how you define them.</p>
+<section id="required-parameter">
+<h3>Required Parameter<a class="headerlink" href="#required-parameter" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/orders&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_orders</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Request must include:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/orders?page=1
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">page</span></code> has no default value</p></li>
+<li><p>So FastAPI expects the user to provide it</p></li>
+<li><p>If missing, FastAPI returns an error</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="optional-parameter">
+<h3>Optional Parameter<a class="headerlink" href="#optional-parameter" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/orders&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_orders</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Now:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/orders</span></code> → page = 1 (default value)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/orders?page=3</span></code> → page = 3</p></li>
+</ul>
+<p>When you provide a default value, the parameter becomes optional.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="multiple-query-parameters">
+<h2>4. Multiple Query Parameters<a class="headerlink" href="#multiple-query-parameters" title="Link to this heading">#</a></h2>
+<p>You can define more than one query parameter in the same function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/products&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_products</span><span class="p">(</span><span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">category</span><span class="p">,</span>
+        <span class="s2">&quot;limit&quot;</span><span class="p">:</span> <span class="n">limit</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/products?category=books&amp;limit=3
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">category</span></code> filters the type of product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limit</span></code> controls how many results to return</p></li>
+</ul>
+<p>This is how APIs allow users to customize results dynamically.</p>
+</section>
+<hr class="docutils" />
+<section id="data-types-and-conversion">
+<h2>5. Data Types and Conversion<a class="headerlink" href="#data-types-and-conversion" title="Link to this heading">#</a></h2>
+<p>All query parameters arrive as strings from the URL.</p>
+<p>FastAPI automatically converts them into the correct type using your function definition.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/numbers&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_number</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/numbers?value=25
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;25&quot;</span></code> is received as text</p></li>
+<li><p>FastAPI converts it into integer <code class="docutils literal notranslate"><span class="pre">25</span></code></p></li>
+<li><p>Inside Python, it behaves like a real number</p></li>
+</ul>
+<p>This allows you to perform calculations without manual conversion.</p>
+</section>
+<hr class="docutils" />
+<section id="validation">
+<h2>6. Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h2>
+<p>FastAPI automatically validates query parameters based on their types.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/numbers&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_number</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Invalid request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/numbers?value=abc
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;abc&quot;</span></code> cannot be converted into an integer</p></li>
+<li><p>FastAPI detects this issue</p></li>
+<li><p>The function is NOT executed</p></li>
+<li><p>An error response is returned</p></li>
+</ul>
+<p>This prevents invalid data from entering your system.</p>
+</section>
+<hr class="docutils" />
+<section id="real-world-example-filtering">
+<h2>7. Real-World Example (Filtering)<a class="headerlink" href="#real-world-example-filtering" title="Link to this heading">#</a></h2>
+<p>Let’s simulate a real product filtering system.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/store/products&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_products</span><span class="p">(</span><span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_price</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">category</span><span class="p">,</span>
+        <span class="s2">&quot;max_price&quot;</span><span class="p">:</span> <span class="n">max_price</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Filtered products&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/store/products?category=shoes&amp;max_price=100
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">category</span></code> filters products by type</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_price</span></code> limits results to cheaper items</p></li>
+</ul>
+<p>This is how e-commerce websites filter products.</p>
+</section>
+<hr class="docutils" />
+<section id="pagination-example">
+<h2>8. Pagination Example<a class="headerlink" href="#pagination-example" title="Link to this heading">#</a></h2>
+<p>Pagination is used when you have a large amount of data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/articles&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_articles</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;page&quot;</span><span class="p">:</span> <span class="n">page</span><span class="p">,</span>
+        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Paginated results&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/articles?page=2&amp;size=5
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">page</span></code> → which page of data</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">size</span></code> → how many items per page</p></li>
+</ul>
+<p>This is used in blogs, social media, and APIs with large datasets.</p>
+</section>
+<hr class="docutils" />
+<section id="boolean-query-parameters">
+<h2>9. Boolean Query Parameters<a class="headerlink" href="#boolean-query-parameters" title="Link to this heading">#</a></h2>
+<p>FastAPI can also convert boolean values automatically.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/users&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_users</span><span class="p">(</span><span class="n">active</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="n">active</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Requests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/users?active=true
+/users?active=false
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">true</span></code> → True</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">false</span></code> → False</p></li>
+</ul>
+<p>Useful for filters like active/inactive users.</p>
+</section>
+<hr class="docutils" />
+<section id="query-parameters-with-pydantic-advanced">
+<h2>10. Query Parameters with Pydantic (Advanced)<a class="headerlink" href="#query-parameters-with-pydantic-advanced" title="Link to this heading">#</a></h2>
+<p>For complex filtering, you can group parameters using a model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductFilter</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/filter-products&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_products</span><span class="p">(</span><span class="nb">filter</span><span class="p">:</span> <span class="n">ProductFilter</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">filter</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>Instead of many parameters, you group them</p></li>
+<li><p>This keeps your code clean and organized</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="path-parameters-vs-query-parameters">
+<h2>11. Path Parameters vs Query Parameters<a class="headerlink" href="#path-parameters-vs-query-parameters" title="Link to this heading">#</a></h2>
+<p>Path parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="mi">10</span>
+</pre></div>
+</div>
+<p>Query parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/products?limit=10
+</pre></div>
+</div>
+<p>Difference:</p>
+<ul class="simple">
+<li><p>Path → identifies a specific resource</p></li>
+<li><p>Query → modifies or filters the result</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="common-mistakes">
+<h2>12. Common Mistakes<a class="headerlink" href="#common-mistakes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Forgetting default value for optional parameters</p></li>
+<li><p>Using incorrect data types</p></li>
+<li><p>Mixing path and query usage incorrectly</p></li>
+<li><p>Using unclear or short variable names</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="best-practices">
+<h2>13. Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use query parameters for filtering and searching</p></li>
+<li><p>Use path parameters for identifying resources</p></li>
+<li><p>Always define data types</p></li>
+<li><p>Provide default values when possible</p></li>
+<li><p>Use clear and meaningful parameter names</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>14. Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>In this tutorial, you learned:</p>
+<ul class="simple">
+<li><p>What query parameters are</p></li>
+<li><p>How they are used in FastAPI</p></li>
+<li><p>Required vs optional parameters</p></li>
+<li><p>Automatic type conversion</p></li>
+<li><p>Validation and error handling</p></li>
+<li><p>Real-world use cases like filtering and pagination</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="try-it-yourself">
+<h2>15. Try It Yourself<a class="headerlink" href="#try-it-yourself" title="Link to this heading">#</a></h2>
+<p>Practice:</p>
+<ol class="arabic simple">
+<li><p>Create endpoint:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/cars?brand=toyota&amp;year=2022
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Add parameters:
+- brand (string)
+- year (integer)</p></li>
+<li><p>Test with:
+- correct values
+- incorrect values</p></li>
+</ol>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="path_parameters.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Path Parameters in FastAPI</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="request_body.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Request Body in FastAPI</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-query-parameters">1. What are Query Parameters?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-example">2. Basic Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-vs-optional-parameters">3. Required vs Optional Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#required-parameter">Required Parameter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-parameter">Optional Parameter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-query-parameters">4. Multiple Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-types-and-conversion">5. Data Types and Conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">6. Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example-filtering">7. Real-World Example (Filtering)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pagination-example">8. Pagination Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-query-parameters">9. Boolean Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-parameters-with-pydantic-advanced">10. Query Parameters with Pydantic (Advanced)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-vs-query-parameters">11. Path Parameters vs Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">12. Common Mistakes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">13. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">14. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-it-yourself">15. Try It Yourself</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 Sherullah – Education Resource Center.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({
+      "gtm.start": new Date().getTime(),
+      event: "gtm.js",
+    });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(
+    window,
+    document,
+    "script",
+    "dataLayer",
+    "GTM-P4GQM59"
+  );
+</script>
+<!-- End Google Tag Manager -->
+
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
