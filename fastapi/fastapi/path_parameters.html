@@ -1,0 +1,1126 @@
+ 
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Learn path parameters in FastAPI with practical examples. Understand types, automatic data conversion, validation, enums, route order, predefined values, and path parameters that contain full paths." name="description" />
+<meta content="FastAPI path parameters, FastAPI path parameter types, FastAPI enum path parameter, FastAPI validation, FastAPI predefined values, FastAPI path converter, FastAPI route order, FastAPI tutorial" name="keywords" />
+<meta content="Sherullah Mohtat" name="author" />
+<meta content="index, follow" name="robots" />
+
+    <title>Path Parameters in FastAPI &#8212; FastAPI</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=873836d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/style.css?v=d6ed2d86" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67d5fe8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ad_style.css?v=34d129f9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/navbar-scroll.css?v=4d5946c0" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f9c1cefe"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fastapi/path_parameters';</script>
+    <script src="../_static/js/custom.js?v=6f0278c6"></script>
+    <script src="../_static/js/navbar-scroll.js?v=cb524ae2"></script>
+    <link rel="icon" href="../_static/sherullah.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Query Parameters in FastAPI" href="query_parameters.html" />
+    <link rel="prev" title="Understanding Core Concepts" href="understanding_core_concepts.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+  ><iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-P4GQM59"
+    height="0"
+    width="0"
+    style="display: none; visibility: hidden"
+  ></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav class="dask-nav container-fluid">
+  <ul>
+    <li class="logo">
+      <a href="https://docs.dask.org/">
+        <img
+          class="caption"
+          src="../_static/images/dask-horizontal-white.svg"
+        />
+      </a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/">Dask</a>
+    </li>
+
+    <li>
+      <a href="https://distributed.dask.org/">Distributed</a>
+    </li>
+
+    <li>
+      <a href="https://ml.dask.org/">Dask ML</a>
+    </li>
+
+    <li>
+      <a href="https://examples.dask.org/">Examples</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/ecosystem.html">Ecosystem</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/support.html">Community</a>
+    </li>
+  </ul>
+</nav>
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+<nav class="dask-nav container-fluid navbar-scroll-wrap">
+
+    <!-- Left arrow -->
+  <button class="scroll-btn scroll-left" id="navLeft" aria-label="Scroll left">
+    &#10094;
+  </button>
+
+  <ul class="nav-scroll" id="nav-scroll">
+
+    <!-- Home = external site
+    <li>
+      <a href="" target="_blank" rel="noopener" class="nav-icon">
+        <img src="../_static/images/logo/home48.png" alt="Home" />
+      </a>
+    </li>
+ -->
+    <!-- pathto inside repository project-->
+    <li class="">
+      <a href="../index.html">FastAPI</a>
+    </li>
+  </ul>
+
+
+  <!-- Right arrow -->
+  <button class="scroll-btn scroll-right" id="navRight" aria-label="Scroll right">
+    &#10095;
+  </button>
+</nav>
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="_static/images/dask-horizontal-white.svg">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">FastAPI</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">FastAPI Framework</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment_setup.html">Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding_core_concepts.html">Understanding Core Concepts</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Path Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_parameters.html">Query Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_body.html">Request Body in FastAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Path Parameters in FastAPI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-path-parameter-is">1. What a Path Parameter Is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#declaring-a-path-parameter">2. Declaring a Path Parameter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-with-types">3. Path Parameters with Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-conversion">4. Data Conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-validation">5. Data Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-pydantic-fits-in">6. How Pydantic Fits In</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pydantic-example">Pydantic Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-path-parameters">7. Multiple Path Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example">8. Real-World Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#order-matters-in-routes">9. Order Matters in Routes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predefined-values">10. Predefined Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-enum-class">11. Create an Enum Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-python-enumerations">12. Working with Python Enumerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-enum-is-useful">13. Why Enum Is Useful</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-containing-paths">14. Path Parameters Containing Paths</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-path-parameter-vs-path-capturing-parameter">15. Normal Path Parameter vs Path-Capturing Parameter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-path-parameters">16. When to Use Path Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-vs-query-parameters">17. Path Parameters vs Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">18. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-wrong-type">Using the wrong type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#route-order-confusion">Route order confusion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-unclear-names">Using unclear names</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-enums-when-choices-are-limited">Ignoring enums when choices are limited</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">19. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">20. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-it-yourself">21. Try It Yourself</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-simple-numeric-id">Example 1: simple numeric ID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-two-path-parameters">Example 2: two path parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-enum-path-parameter">Example 3: enum path parameter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-parameter-that-captures-full-path">Example 4: parameter that captures full path</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="path-parameters-in-fastapi">
+<h1>Path Parameters in FastAPI<a class="headerlink" href="#path-parameters-in-fastapi" title="Link to this heading">#</a></h1>
+<p>Path parameters are one of the most useful features in FastAPI because they allow your application to read values directly from the URL.</p>
+<p>They are called “path parameters” because the value lives inside the path itself.</p>
+<p>For example, in a URL like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="mi">25</span>
+</pre></div>
+</div>
+<p>the number <code class="docutils literal notranslate"><span class="pre">25</span></code> is part of the path. That value can be captured and used inside your Python function.</p>
+<p>This makes your API dynamic. Instead of creating a separate URL for every product, customer, or order, you create one route and let FastAPI read the changing part for you.</p>
+<section id="what-a-path-parameter-is">
+<h2>1. What a Path Parameter Is<a class="headerlink" href="#what-a-path-parameter-is" title="Link to this heading">#</a></h2>
+<p>A path parameter is a variable inside the route path.</p>
+<p>Here is a simple example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/products/</span><span class="si">{product_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Product details fetched successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;product_id&quot;</span><span class="p">:</span> <span class="n">product_id</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>In this route:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/products/</span></code> is the fixed part</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">{product_id}</span></code> is the dynamic part</p></li>
+</ul>
+<p>If someone visits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="mi">25</span>
+</pre></div>
+</div>
+<p>FastAPI takes the value <code class="docutils literal notranslate"><span class="pre">25</span></code> from the URL and sends it into the function as <code class="docutils literal notranslate"><span class="pre">product_id</span></code>.</p>
+</section>
+<section id="declaring-a-path-parameter">
+<h2>2. Declaring a Path Parameter<a class="headerlink" href="#declaring-a-path-parameter" title="Link to this heading">#</a></h2>
+<p>To declare a path parameter in FastAPI, you do two things:</p>
+<ul class="simple">
+<li><p>place a variable name in curly braces inside the route</p></li>
+<li><p>use the same variable name in the function parameters</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/customers/</span><span class="si">{customer_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_customer</span><span class="p">(</span><span class="n">customer_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Notice that the name in the path and the name in the function must match.</p>
+<p>Correct:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/customers/</span><span class="si">{customer_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_customer</span><span class="p">(</span><span class="n">customer_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Incorrect:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/customers/</span><span class="si">{customer_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_customer</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;customer_id&quot;</span><span class="p">:</span> <span class="nb">id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The second version is confusing because the path says <code class="docutils literal notranslate"><span class="pre">customer_id</span></code> but the function expects <code class="docutils literal notranslate"><span class="pre">id</span></code>. It is best to keep them the same.</p>
+</section>
+<section id="path-parameters-with-types">
+<h2>3. Path Parameters with Types<a class="headerlink" href="#path-parameters-with-types" title="Link to this heading">#</a></h2>
+<p>FastAPI becomes very powerful when you add Python type hints.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/orders/</span><span class="si">{order_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_order</span><span class="p">(</span><span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;order_id&quot;</span><span class="p">:</span> <span class="n">order_id</span><span class="p">,</span>
+        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ready for processing&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">order_id:</span> <span class="pre">int</span></code> tells FastAPI that the value must be an integer.</p>
+<p>You can also use other types such as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></li>
+</ul>
+<p>Example with a string:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/employees/</span><span class="si">{employee_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_employee</span><span class="p">(</span><span class="n">employee_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;employee_name&quot;</span><span class="p">:</span> <span class="n">employee_name</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>If the URL is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">employees</span><span class="o">/</span><span class="n">ahmad</span>
+</pre></div>
+</div>
+<p>then <code class="docutils literal notranslate"><span class="pre">employee_name</span></code> becomes <code class="docutils literal notranslate"><span class="pre">&quot;ahmad&quot;</span></code>.</p>
+</section>
+<section id="data-conversion">
+<h2>4. Data Conversion<a class="headerlink" href="#data-conversion" title="Link to this heading">#</a></h2>
+<p>One useful thing FastAPI does automatically is data conversion.</p>
+<p>Suppose the value coming from the browser is text, because URL values are always received as strings at first.</p>
+<p>But if your function says the value should be an integer, FastAPI will try to convert it for you.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/tickets/</span><span class="si">{ticket_number}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_ticket</span><span class="p">(</span><span class="n">ticket_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;ticket_number&quot;</span><span class="p">:</span> <span class="n">ticket_number</span><span class="p">,</span>
+        <span class="s2">&quot;python_type&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ticket_number</span><span class="p">))</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>If the request is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">tickets</span><span class="o">/</span><span class="mi">1007</span>
+</pre></div>
+</div>
+<p>FastAPI will convert <code class="docutils literal notranslate"><span class="pre">&quot;1007&quot;</span></code> into the integer <code class="docutils literal notranslate"><span class="pre">1007</span></code>.</p>
+<p>So inside Python, <code class="docutils literal notranslate"><span class="pre">ticket_number</span></code> is no longer a string. It becomes a real integer.</p>
+<p>That means you can safely do numeric operations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/boxes/</span><span class="si">{box_count}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_boxes</span><span class="p">(</span><span class="n">box_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;received&quot;</span><span class="p">:</span> <span class="n">box_count</span><span class="p">,</span>
+        <span class="s2">&quot;after_adding_one&quot;</span><span class="p">:</span> <span class="n">box_count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>If the request is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">boxes</span><span class="o">/</span><span class="mi">9</span>
+</pre></div>
+</div>
+<p>the response will show:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;received&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;after_adding_one&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="data-validation">
+<h2>5. Data Validation<a class="headerlink" href="#data-validation" title="Link to this heading">#</a></h2>
+<p>FastAPI does not only convert data. It also validates it.</p>
+<p>Validation means checking whether the incoming value matches the rules you declared.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/invoices/</span><span class="si">{invoice_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_invoice</span><span class="p">(</span><span class="n">invoice_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;invoice_id&quot;</span><span class="p">:</span> <span class="n">invoice_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Valid request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">invoices</span><span class="o">/</span><span class="mi">300</span>
+</pre></div>
+</div>
+<p>This works because <code class="docutils literal notranslate"><span class="pre">300</span></code> can be converted into an integer.</p>
+<p>Invalid request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">invoices</span><span class="o">/</span><span class="n">abc</span>
+</pre></div>
+</div>
+<p>This fails because <code class="docutils literal notranslate"><span class="pre">abc</span></code> cannot become an integer.</p>
+<p>FastAPI will stop the request and return a validation error response automatically.</p>
+<p>This is very useful because you do not need to manually write code like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">invoice_id</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid id&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>FastAPI handles that part for you based on the type you declared.</p>
+</section>
+<section id="how-pydantic-fits-in">
+<h2>6. How Pydantic Fits In<a class="headerlink" href="#how-pydantic-fits-in" title="Link to this heading">#</a></h2>
+<p>FastAPI relies heavily on data validation, and Pydantic is the tool that helps with that.</p>
+<p>In simple words:</p>
+<ul class="simple">
+<li><p>FastAPI handles the web part</p></li>
+<li><p>Pydantic helps check and organize data</p></li>
+</ul>
+<p>When you use simple path parameters like <code class="docutils literal notranslate"><span class="pre">int</span></code> or <code class="docutils literal notranslate"><span class="pre">str</span></code>, FastAPI still applies validation rules in a structured way.</p>
+<p>Pydantic is especially important when you work with request bodies, but the same idea of validation is present here too: FastAPI reads your type hints and makes sure the incoming data matches them.</p>
+<p>Think of it like this:</p>
+<ul class="simple">
+<li><p>You declare what type of data you want</p></li>
+<li><p>FastAPI checks the input</p></li>
+<li><p>If the input is wrong, the request is rejected</p></li>
+</ul>
+<p>That is one reason FastAPI feels clean and modern.</p>
+<section id="pydantic-example">
+<h3>Pydantic Example<a class="headerlink" href="#pydantic-example" title="Link to this heading">#</a></h3>
+<p>Pydantic helps FastAPI validate and structure data using Python classes.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Product</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/products&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_product</span><span class="p">(</span><span class="n">product</span><span class="p">:</span> <span class="n">Product</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">product</span>
+</pre></div>
+</div>
+<p>This ensures that incoming data:
+- has the correct structure
+- follows the correct data types
+- is automatically validated and converted</p>
+</section>
+</section>
+<section id="multiple-path-parameters">
+<h2>7. Multiple Path Parameters<a class="headerlink" href="#multiple-path-parameters" title="Link to this heading">#</a></h2>
+<p>You can have more than one path parameter in a single route.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/schools/</span><span class="si">{school_id}</span><span class="s2">/students/</span><span class="si">{student_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_student_record</span><span class="p">(</span><span class="n">school_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">student_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;school_id&quot;</span><span class="p">:</span> <span class="n">school_id</span><span class="p">,</span>
+        <span class="s2">&quot;student_id&quot;</span><span class="p">:</span> <span class="n">student_id</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">schools</span><span class="o">/</span><span class="mi">15</span><span class="o">/</span><span class="n">students</span><span class="o">/</span><span class="mi">204</span>
+</pre></div>
+</div>
+<p>FastAPI maps:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">school_id</span></code> → 15</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">student_id</span></code> → 204</p></li>
+</ul>
+<p>This is very useful when your data has hierarchy.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>a restaurant and one item from its menu</p></li>
+<li><p>a company and one employee</p></li>
+<li><p>a course and one lesson</p></li>
+</ul>
+</section>
+<section id="real-world-example">
+<h2>8. Real-World Example<a class="headerlink" href="#real-world-example" title="Link to this heading">#</a></h2>
+<p>Let’s build a more realistic route.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/shops/</span><span class="si">{shop_id}</span><span class="s2">/products/</span><span class="si">{product_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_shop_product</span><span class="p">(</span><span class="n">shop_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;shop_id&quot;</span><span class="p">:</span> <span class="n">shop_id</span><span class="p">,</span>
+        <span class="s2">&quot;product_id&quot;</span><span class="p">:</span> <span class="n">product_id</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Product belongs to the selected shop&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Example request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">shops</span><span class="o">/</span><span class="mi">8</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="mi">52</span>
+</pre></div>
+</div>
+<p>This is more meaningful than generic examples because it reflects how real systems are designed.</p>
+</section>
+<section id="order-matters-in-routes">
+<h2>9. Order Matters in Routes<a class="headerlink" href="#order-matters-in-routes" title="Link to this heading">#</a></h2>
+<p>When two routes look similar, the order of declaration becomes important.</p>
+<p>Consider this example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/reports/daily&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_daily_report</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;report&quot;</span><span class="p">:</span> <span class="s2">&quot;daily summary&quot;</span><span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/reports/</span><span class="si">{report_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_report_by_id</span><span class="p">(</span><span class="n">report_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;report_id&quot;</span><span class="p">:</span> <span class="n">report_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This works well because the fixed route comes first.</p>
+<p>Why?</p>
+<p>Because <code class="docutils literal notranslate"><span class="pre">/reports/daily</span></code> is a specific path, while <code class="docutils literal notranslate"><span class="pre">/reports/{report_id}</span></code> is a dynamic path.</p>
+<p>If you place the dynamic route first, then FastAPI may try to interpret:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">reports</span><span class="o">/</span><span class="n">daily</span>
+</pre></div>
+</div>
+<p>as if <code class="docutils literal notranslate"><span class="pre">daily</span></code> were the value of <code class="docutils literal notranslate"><span class="pre">report_id</span></code>.</p>
+<p>But <code class="docutils literal notranslate"><span class="pre">report_id</span></code> expects an integer, so that leads to a validation problem.</p>
+<p>Best practice:</p>
+<ul class="simple">
+<li><p>place fixed routes first</p></li>
+<li><p>place dynamic routes after them</p></li>
+</ul>
+<p>This keeps your routing clear and avoids ambiguity.</p>
+</section>
+<section id="predefined-values">
+<h2>10. Predefined Values<a class="headerlink" href="#predefined-values" title="Link to this heading">#</a></h2>
+<p>Sometimes you do not want users to enter any value they like.</p>
+<p>You may want to allow only a small set of valid values, such as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">new</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">popular</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">discounted</span></code></p></li>
+</ul>
+<p>This is where predefined values become useful.</p>
+<p>Instead of accepting any string, you can restrict the parameter to a known set of choices.</p>
+</section>
+<section id="create-an-enum-class">
+<h2>11. Create an Enum Class<a class="headerlink" href="#create-an-enum-class" title="Link to this heading">#</a></h2>
+<p>In Python, one clean way to define predefined choices is with an enumeration.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductView</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">new</span> <span class="o">=</span> <span class="s2">&quot;new&quot;</span>
+    <span class="n">popular</span> <span class="o">=</span> <span class="s2">&quot;popular&quot;</span>
+    <span class="n">discounted</span> <span class="o">=</span> <span class="s2">&quot;discounted&quot;</span>
+</pre></div>
+</div>
+<p>This class defines exactly three allowed values.</p>
+<p>Notice that it inherits from both <code class="docutils literal notranslate"><span class="pre">str</span></code> and <code class="docutils literal notranslate"><span class="pre">Enum</span></code>.</p>
+<p>That is useful because:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Enum</span></code> gives you controlled choices</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code> makes the values behave naturally as strings in APIs</p></li>
+</ul>
+</section>
+<section id="working-with-python-enumerations">
+<h2>12. Working with Python Enumerations<a class="headerlink" href="#working-with-python-enumerations" title="Link to this heading">#</a></h2>
+<p>Now let’s use the enum in a FastAPI path parameter.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductView</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">new</span> <span class="o">=</span> <span class="s2">&quot;new&quot;</span>
+    <span class="n">popular</span> <span class="o">=</span> <span class="s2">&quot;popular&quot;</span>
+    <span class="n">discounted</span> <span class="o">=</span> <span class="s2">&quot;discounted&quot;</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/products/view/</span><span class="si">{view_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_products_by_view</span><span class="p">(</span><span class="n">view_name</span><span class="p">:</span> <span class="n">ProductView</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;selected_view&quot;</span><span class="p">:</span> <span class="n">view_name</span><span class="p">,</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Products filtered by predefined view&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Valid requests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="n">new</span>
+<span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="n">popular</span>
+<span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="n">discounted</span>
+</pre></div>
+</div>
+<p>Invalid request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="n">featured</span>
+</pre></div>
+</div>
+<p>That last request fails because <code class="docutils literal notranslate"><span class="pre">featured</span></code> is not one of the allowed enum values.</p>
+<p>This is a very clean way to protect your API and document expected values.</p>
+</section>
+<section id="why-enum-is-useful">
+<h2>13. Why Enum Is Useful<a class="headerlink" href="#why-enum-is-useful" title="Link to this heading">#</a></h2>
+<p>Enums are useful because they:</p>
+<ul class="simple">
+<li><p>prevent invalid values</p></li>
+<li><p>make your code easier to understand</p></li>
+<li><p>improve automatic API documentation</p></li>
+<li><p>reduce manual checking inside functions</p></li>
+</ul>
+<p>Without enum, you might write:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/products/view/</span><span class="si">{view_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_products_by_view</span><span class="p">(</span><span class="n">view_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">allowed</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;new&quot;</span><span class="p">,</span> <span class="s2">&quot;popular&quot;</span><span class="p">,</span> <span class="s2">&quot;discounted&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">view_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid view&quot;</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;selected_view&quot;</span><span class="p">:</span> <span class="n">view_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This works, but enum is cleaner and more professional.</p>
+</section>
+<section id="path-parameters-containing-paths">
+<h2>14. Path Parameters Containing Paths<a class="headerlink" href="#path-parameters-containing-paths" title="Link to this heading">#</a></h2>
+<p>Sometimes you want a path parameter to capture not just one segment, but an entire file path or folder path.</p>
+<p>Example use cases:</p>
+<ul class="simple">
+<li><p>reading a file location</p></li>
+<li><p>serving media from nested folders</p></li>
+<li><p>working with document directories</p></li>
+</ul>
+<p>Suppose you want to capture something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">shoes</span><span class="o">/</span><span class="n">red</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+<p>If you write a normal path parameter, FastAPI will stop at each slash.</p>
+<p>To capture the whole remaining path, use the <code class="docutils literal notranslate"><span class="pre">path</span></code> type.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/files/{file_path:path}&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_file_path</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;file_path&quot;</span><span class="p">:</span> <span class="n">file_path</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Now if the request is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">shoes</span><span class="o">/</span><span class="n">red</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+<p>the value of <code class="docutils literal notranslate"><span class="pre">file_path</span></code> becomes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">images</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">shoes</span><span class="o">/</span><span class="n">red</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+<p>This is helpful when your path itself contains multiple folder levels.</p>
+</section>
+<section id="normal-path-parameter-vs-path-capturing-parameter">
+<h2>15. Normal Path Parameter vs Path-Capturing Parameter<a class="headerlink" href="#normal-path-parameter-vs-path-capturing-parameter" title="Link to this heading">#</a></h2>
+<p>Compare these two:</p>
+<p>Normal path parameter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/documents/</span><span class="si">{doc_name}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_document</span><span class="p">(</span><span class="n">doc_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;doc_name&quot;</span><span class="p">:</span> <span class="n">doc_name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This can capture:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">documents</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="n">pdf</span>
+</pre></div>
+</div>
+<p>But it cannot capture:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">documents</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="mi">2026</span><span class="o">/</span><span class="n">april</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="n">pdf</span>
+</pre></div>
+</div>
+<p>Now look at the path-capturing version:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/documents/{doc_path:path}&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_document_path</span><span class="p">(</span><span class="n">doc_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;doc_path&quot;</span><span class="p">:</span> <span class="n">doc_path</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This can capture the full nested path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">work</span><span class="o">/</span><span class="mi">2026</span><span class="o">/</span><span class="n">april</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="n">pdf</span>
+</pre></div>
+</div>
+</section>
+<section id="when-to-use-path-parameters">
+<h2>16. When to Use Path Parameters<a class="headerlink" href="#when-to-use-path-parameters" title="Link to this heading">#</a></h2>
+<p>Use path parameters when the value is a required part of identifying the resource.</p>
+<p>Good examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/users/15</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/orders/9001</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/stores/4/products/77</span></code></p></li>
+</ul>
+<p>Use them when the resource cannot be identified without that value.</p>
+</section>
+<section id="path-parameters-vs-query-parameters">
+<h2>17. Path Parameters vs Query Parameters<a class="headerlink" href="#path-parameters-vs-query-parameters" title="Link to this heading">#</a></h2>
+<p>It is important not to confuse path parameters with query parameters.</p>
+<p>Path parameter example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">movies</span><span class="o">/</span><span class="mi">12</span>
+</pre></div>
+</div>
+<p>Query parameter example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/movies?year=2025
+</pre></div>
+</div>
+<p>Difference:</p>
+<ul class="simple">
+<li><p>path parameters usually identify a specific resource</p></li>
+<li><p>query parameters usually filter, sort, search, or modify the response</p></li>
+</ul>
+<p>Example idea:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/products/10</span></code> → get one product</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/products?category=shoes</span></code> → get products in one category</p></li>
+</ul>
+</section>
+<section id="common-mistakes">
+<h2>18. Common Mistakes<a class="headerlink" href="#common-mistakes" title="Link to this heading">#</a></h2>
+<section id="using-the-wrong-type">
+<h3>Using the wrong type<a class="headerlink" href="#using-the-wrong-type" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/payments/</span><span class="si">{payment_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_payment</span><span class="p">(</span><span class="n">payment_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;payment_id&quot;</span><span class="p">:</span> <span class="n">payment_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">payment_id</span></code> should always be numeric, using <code class="docutils literal notranslate"><span class="pre">str</span></code> may allow values you do not really want.</p>
+</section>
+<section id="route-order-confusion">
+<h3>Route order confusion<a class="headerlink" href="#route-order-confusion" title="Link to this heading">#</a></h3>
+<p>If fixed and dynamic paths are mixed carelessly, users may hit the wrong route or get validation errors.</p>
+</section>
+<section id="using-unclear-names">
+<h3>Using unclear names<a class="headerlink" href="#using-unclear-names" title="Link to this heading">#</a></h3>
+<p>This is less helpful:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/cars/</span><span class="si">{x}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_car</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This is much better:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/cars/</span><span class="si">{car_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_car</span><span class="p">(</span><span class="n">car_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;car_id&quot;</span><span class="p">:</span> <span class="n">car_id</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="ignoring-enums-when-choices-are-limited">
+<h3>Ignoring enums when choices are limited<a class="headerlink" href="#ignoring-enums-when-choices-are-limited" title="Link to this heading">#</a></h3>
+<p>If only three or four values are allowed, enum is cleaner than manual checking.</p>
+</section>
+</section>
+<section id="best-practices">
+<h2>19. Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use descriptive names like <code class="docutils literal notranslate"><span class="pre">product_id</span></code>, <code class="docutils literal notranslate"><span class="pre">customer_id</span></code>, and <code class="docutils literal notranslate"><span class="pre">invoice_id</span></code></p></li>
+<li><p>Add type hints for every path parameter</p></li>
+<li><p>Put fixed routes before dynamic routes</p></li>
+<li><p>Use enum when only certain values should be accepted</p></li>
+<li><p>Use path-capturing parameters only when you really need full nested paths</p></li>
+<li><p>Keep URLs meaningful and readable</p></li>
+</ul>
+</section>
+<section id="summary">
+<h2>20. Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>In this tutorial, you learned that path parameters let FastAPI capture values directly from the URL.</p>
+<p>You also learned:</p>
+<ul class="simple">
+<li><p>how to declare a path parameter</p></li>
+<li><p>how to assign types</p></li>
+<li><p>how FastAPI performs automatic data conversion</p></li>
+<li><p>how validation works</p></li>
+<li><p>how Pydantic relates to validation</p></li>
+<li><p>why route order matters</p></li>
+<li><p>how to restrict values with an enum</p></li>
+<li><p>how to work with Python enumerations</p></li>
+<li><p>how to capture a full nested path using <code class="docutils literal notranslate"><span class="pre">:path</span></code></p></li>
+</ul>
+<p>Path parameters are simple to start with, but they are also a major part of building real APIs. Once you understand them well, many other FastAPI topics become easier.</p>
+</section>
+<section id="try-it-yourself">
+<h2>21. Try It Yourself<a class="headerlink" href="#try-it-yourself" title="Link to this heading">#</a></h2>
+<p>Practice these one by one.</p>
+<section id="example-1-simple-numeric-id">
+<h3>Example 1: simple numeric ID<a class="headerlink" href="#example-1-simple-numeric-id" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-two-path-parameters">
+<h3>Example 2: two path parameters<a class="headerlink" href="#example-2-two-path-parameters" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/drivers/</span><span class="si">{driver_id}</span><span class="s2">/rides/</span><span class="si">{ride_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_driver_ride</span><span class="p">(</span><span class="n">driver_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ride_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;driver_id&quot;</span><span class="p">:</span> <span class="n">driver_id</span><span class="p">,</span>
+        <span class="s2">&quot;ride_id&quot;</span><span class="p">:</span> <span class="n">ride_id</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-enum-path-parameter">
+<h3>Example 3: enum path parameter<a class="headerlink" href="#example-3-enum-path-parameter" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DeliveryStatus</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">pending</span> <span class="o">=</span> <span class="s2">&quot;pending&quot;</span>
+    <span class="n">shipped</span> <span class="o">=</span> <span class="s2">&quot;shipped&quot;</span>
+    <span class="n">delivered</span> <span class="o">=</span> <span class="s2">&quot;delivered&quot;</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/deliveries/status/</span><span class="si">{status}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_deliveries_by_status</span><span class="p">(</span><span class="n">status</span><span class="p">:</span> <span class="n">DeliveryStatus</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-parameter-that-captures-full-path">
+<h3>Example 4: parameter that captures full path<a class="headerlink" href="#example-4-parameter-that-captures-full-path" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/media/{media_path:path}&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_media_path</span><span class="p">(</span><span class="n">media_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;media_path&quot;</span><span class="p">:</span> <span class="n">media_path</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="understanding_core_concepts.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Understanding Core Concepts</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="query_parameters.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Query Parameters in FastAPI</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-a-path-parameter-is">1. What a Path Parameter Is</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#declaring-a-path-parameter">2. Declaring a Path Parameter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-with-types">3. Path Parameters with Types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-conversion">4. Data Conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-validation">5. Data Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-pydantic-fits-in">6. How Pydantic Fits In</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pydantic-example">Pydantic Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-path-parameters">7. Multiple Path Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example">8. Real-World Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#order-matters-in-routes">9. Order Matters in Routes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#predefined-values">10. Predefined Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-enum-class">11. Create an Enum Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-python-enumerations">12. Working with Python Enumerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-enum-is-useful">13. Why Enum Is Useful</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-containing-paths">14. Path Parameters Containing Paths</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-path-parameter-vs-path-capturing-parameter">15. Normal Path Parameter vs Path-Capturing Parameter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-path-parameters">16. When to Use Path Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-parameters-vs-query-parameters">17. Path Parameters vs Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">18. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-wrong-type">Using the wrong type</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#route-order-confusion">Route order confusion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-unclear-names">Using unclear names</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-enums-when-choices-are-limited">Ignoring enums when choices are limited</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">19. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">20. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-it-yourself">21. Try It Yourself</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-simple-numeric-id">Example 1: simple numeric ID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-two-path-parameters">Example 2: two path parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-enum-path-parameter">Example 3: enum path parameter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-parameter-that-captures-full-path">Example 4: parameter that captures full path</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 Sherullah – Education Resource Center.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({
+      "gtm.start": new Date().getTime(),
+      event: "gtm.js",
+    });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(
+    window,
+    document,
+    "script",
+    "dataLayer",
+    "GTM-P4GQM59"
+  );
+</script>
+<!-- End Google Tag Manager -->
+
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

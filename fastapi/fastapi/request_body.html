@@ -1,0 +1,1248 @@
+ 
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Learn how to use request bodies in FastAPI with clear examples. Understand JSON input, Pydantic models, validation, and real-world API usage." name="description" />
+<meta content="FastAPI request body, FastAPI POST example, Pydantic model FastAPI, JSON request FastAPI, FastAPI tutorial request body" name="keywords" />
+<meta content="Sherullah Mohtat" name="author" />
+<meta content="index, follow" name="robots" />
+
+    <title>Request Body in FastAPI &#8212; FastAPI</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=873836d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/style.css?v=d6ed2d86" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67d5fe8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ad_style.css?v=34d129f9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/navbar-scroll.css?v=4d5946c0" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f9c1cefe"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fastapi/request_body';</script>
+    <script src="../_static/js/custom.js?v=6f0278c6"></script>
+    <script src="../_static/js/navbar-scroll.js?v=cb524ae2"></script>
+    <link rel="icon" href="../_static/sherullah.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Query Parameters in FastAPI" href="query_parameters.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+  ><iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-P4GQM59"
+    height="0"
+    width="0"
+    style="display: none; visibility: hidden"
+  ></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav class="dask-nav container-fluid">
+  <ul>
+    <li class="logo">
+      <a href="https://docs.dask.org/">
+        <img
+          class="caption"
+          src="../_static/images/dask-horizontal-white.svg"
+        />
+      </a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/">Dask</a>
+    </li>
+
+    <li>
+      <a href="https://distributed.dask.org/">Distributed</a>
+    </li>
+
+    <li>
+      <a href="https://ml.dask.org/">Dask ML</a>
+    </li>
+
+    <li>
+      <a href="https://examples.dask.org/">Examples</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/ecosystem.html">Ecosystem</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/support.html">Community</a>
+    </li>
+  </ul>
+</nav>
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+<nav class="dask-nav container-fluid navbar-scroll-wrap">
+
+    <!-- Left arrow -->
+  <button class="scroll-btn scroll-left" id="navLeft" aria-label="Scroll left">
+    &#10094;
+  </button>
+
+  <ul class="nav-scroll" id="nav-scroll">
+
+    <!-- Home = external site
+    <li>
+      <a href="" target="_blank" rel="noopener" class="nav-icon">
+        <img src="../_static/images/logo/home48.png" alt="Home" />
+      </a>
+    </li>
+ -->
+    <!-- pathto inside repository project-->
+    <li class="">
+      <a href="../index.html">FastAPI</a>
+    </li>
+  </ul>
+
+
+  <!-- Right arrow -->
+  <button class="scroll-btn scroll-right" id="navRight" aria-label="Scroll right">
+    &#10095;
+  </button>
+</nav>
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="_static/images/dask-horizontal-white.svg">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">FastAPI</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">FastAPI Framework</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment_setup.html">Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding_core_concepts.html">Understanding Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path_parameters.html">Path Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_parameters.html">Query Parameters in FastAPI</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Request Body in FastAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Request Body in FastAPI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-request-body">1. What is a Request Body?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-request-body-is-important">2. Why Request Body is Important</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-pydantic-model">3. Creating a Pydantic Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-request-body-in-fastapi">4. Using Request Body in FastAPI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sending-a-request">5. Sending a Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-data-conversion">6. Automatic Data Conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">7. Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-fields">8. Optional Fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-values">9. Default Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example-order-api">10. Real-World Example (Order API)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-path-body">11. Combining Path + Body</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">12. Common Mistakes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">13. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">14. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crud-example-with-request-body">CRUD Example with Request Body</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-pydantic-model">1. Create the Pydantic Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-simple-fake-database">2. Create a Simple Fake Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-operation">3. Create Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-operation">4. Read Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-operation">5. Update Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-operation">6. Delete Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-crud-example">7. Full CRUD Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-example-is-important">8. Why This Example is Important</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-understanding">9. Real-World Understanding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10. Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#patch-operation-partial-update">PATCH Operation (Partial Update)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-patch-is-useful">1. Why PATCH is Useful</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-model-for-partial-update">2. Create a Model for Partial Update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#patch-example">3. PATCH Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-works">4. How This Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-request">5. Example Request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">6. Real-World Understanding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#put-vs-patch">7. PUT vs PATCH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practice">8. Best Practice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">9. Summary</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="request-body-in-fastapi">
+<h1>Request Body in FastAPI<a class="headerlink" href="#request-body-in-fastapi" title="Link to this heading">#</a></h1>
+<p>In real-world applications, APIs often need to receive structured data such as user details, product information, or order data.</p>
+<p>This data is sent from the client (browser, mobile app, or frontend) to the server inside the request body.</p>
+<p>FastAPI makes working with request bodies simple, powerful, and safe by using Python classes and automatic validation.</p>
+<hr class="docutils" />
+<section id="what-is-a-request-body">
+<h2>1. What is a Request Body?<a class="headerlink" href="#what-is-a-request-body" title="Link to this heading">#</a></h2>
+<p>A request body is the data sent by the client to the API.</p>
+<p>Unlike path or query parameters, which are part of the URL, the request body is sent separately, usually in JSON format.</p>
+<p>Example JSON body:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This data is sent when creating or updating resources.</p>
+</section>
+<hr class="docutils" />
+<section id="why-request-body-is-important">
+<h2>2. Why Request Body is Important<a class="headerlink" href="#why-request-body-is-important" title="Link to this heading">#</a></h2>
+<p>Request bodies are used when:</p>
+<ul class="simple">
+<li><p>creating new data (POST)</p></li>
+<li><p>updating existing data (PUT / PATCH)</p></li>
+<li><p>sending complex structured information</p></li>
+</ul>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Creating a user account</p></li>
+<li><p>Placing an order</p></li>
+<li><p>Adding a product</p></li>
+</ul>
+<p>Without request bodies, APIs would be very limited.</p>
+</section>
+<hr class="docutils" />
+<section id="creating-a-pydantic-model">
+<h2>3. Creating a Pydantic Model<a class="headerlink" href="#creating-a-pydantic-model" title="Link to this heading">#</a></h2>
+<p>To handle request body data, FastAPI uses models.</p>
+<p>These models define the structure of the data you expect.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Product</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> → must be a string</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">price</span></code> → must be a number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">in_stock</span></code> → must be true or false</p></li>
+</ul>
+<p>This model acts like a blueprint for incoming data.</p>
+</section>
+<hr class="docutils" />
+<section id="using-request-body-in-fastapi">
+<h2>4. Using Request Body in FastAPI<a class="headerlink" href="#using-request-body-in-fastapi" title="Link to this heading">#</a></h2>
+<p>Now we connect the model to an API endpoint.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Product</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/products&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_product</span><span class="p">(</span><span class="n">product</span><span class="p">:</span> <span class="n">Product</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Product created successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">product</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">product:</span> <span class="pre">Product</span></code> tells FastAPI to expect JSON data</p></li>
+<li><p>FastAPI automatically reads and validates it</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="sending-a-request">
+<h2>5. Sending a Request<a class="headerlink" href="#sending-a-request" title="Link to this heading">#</a></h2>
+<p>You can test this using Swagger UI or Postman.</p>
+<p>Example request body:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Phone&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">699.99</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>FastAPI converts this JSON into a Python object.</p>
+</section>
+<hr class="docutils" />
+<section id="automatic-data-conversion">
+<h2>6. Automatic Data Conversion<a class="headerlink" href="#automatic-data-conversion" title="Link to this heading">#</a></h2>
+<p>FastAPI can convert types automatically.</p>
+<p>Example input:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mouse&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;50&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;true&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Even though the types are not perfect:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;50&quot;</span></code> → converted to 50.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code> → converted to True</p></li>
+</ul>
+<p>FastAPI fixes small mistakes automatically.</p>
+</section>
+<hr class="docutils" />
+<section id="validation">
+<h2>7. Validation<a class="headerlink" href="#validation" title="Link to this heading">#</a></h2>
+<p>If the data is invalid, FastAPI rejects it.</p>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Keyboard&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abc&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;abc&quot;</span></code> cannot be converted to float</p></li>
+<li><p>FastAPI detects the error</p></li>
+<li><p>Request is rejected</p></li>
+</ul>
+<p>Your function will NOT run.</p>
+</section>
+<hr class="docutils" />
+<section id="optional-fields">
+<h2>8. Optional Fields<a class="headerlink" href="#optional-fields" title="Link to this heading">#</a></h2>
+<p>You can make fields optional.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Product</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">description</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">description</span></code> is optional</p></li>
+<li><p>If not provided, it defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="default-values">
+<h2>9. Default Values<a class="headerlink" href="#default-values" title="Link to this heading">#</a></h2>
+<p>You can also provide default values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Product</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>If the client does not send <code class="docutils literal notranslate"><span class="pre">in_stock</span></code>, it will automatically be True.</p>
+</section>
+<hr class="docutils" />
+<section id="real-world-example-order-api">
+<h2>10. Real-World Example (Order API)<a class="headerlink" href="#real-world-example-order-api" title="Link to this heading">#</a></h2>
+<p>Let’s simulate an order system.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">customer_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">item</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/orders&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_order</span><span class="p">(</span><span class="n">order</span><span class="p">:</span> <span class="n">Order</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Order placed&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">order</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Example request:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;customer_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ali&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;item&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Pizza&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;quantity&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is how real APIs receive structured data.</p>
+</section>
+<hr class="docutils" />
+<section id="combining-path-body">
+<h2>11. Combining Path + Body<a class="headerlink" href="#combining-path-body" title="Link to this heading">#</a></h2>
+<p>You can use both together.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/products/</span><span class="si">{product_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_product</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">product</span><span class="p">:</span> <span class="n">Product</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;product_id&quot;</span><span class="p">:</span> <span class="n">product_id</span><span class="p">,</span>
+        <span class="s2">&quot;updated_data&quot;</span><span class="p">:</span> <span class="n">product</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">product_id</span></code> → from URL</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">product</span></code> → from request body</p></li>
+</ul>
+<p>Very common in real applications.</p>
+</section>
+<hr class="docutils" />
+<section id="common-mistakes">
+<h2>12. Common Mistakes<a class="headerlink" href="#common-mistakes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Forgetting to use a Pydantic model</p></li>
+<li><p>Sending wrong JSON format</p></li>
+<li><p>Missing required fields</p></li>
+<li><p>Using incorrect data types</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="best-practices">
+<h2>13. Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Always use Pydantic models</p></li>
+<li><p>Keep models clean and simple</p></li>
+<li><p>Use meaningful field names</p></li>
+<li><p>Validate data properly</p></li>
+<li><p>Use separate models for different operations if needed</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2>14. Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>In this tutorial, you learned:</p>
+<ul class="simple">
+<li><p>What a request body is</p></li>
+<li><p>How FastAPI handles JSON input</p></li>
+<li><p>How to use Pydantic models</p></li>
+<li><p>Data conversion and validation</p></li>
+<li><p>Real-world API examples</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="crud-example-with-request-body">
+<h2>CRUD Example with Request Body<a class="headerlink" href="#crud-example-with-request-body" title="Link to this heading">#</a></h2>
+<p>To understand request bodies better, it helps to see them inside a simple CRUD example.</p>
+<p>CRUD means:</p>
+<ul class="simple">
+<li><p>Create</p></li>
+<li><p>Read</p></li>
+<li><p>Update</p></li>
+<li><p>Delete</p></li>
+</ul>
+<p>In real APIs, the request body is mainly used in:</p>
+<ul class="simple">
+<li><p>Create</p></li>
+<li><p>Update</p></li>
+</ul>
+<p>It is usually <strong>not needed</strong> for simple Read and Delete operations, because those often use path parameters instead.</p>
+<p>Let’s build a small example for managing books.</p>
+<section id="create-the-pydantic-model">
+<h3>1. Create the Pydantic Model<a class="headerlink" href="#create-the-pydantic-model" title="Link to this heading">#</a></h3>
+<p>First, define the structure of the data that the API should receive.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Book</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span>
+</pre></div>
+</div>
+<p>This model means every book should have:</p>
+<ul class="simple">
+<li><p>a title</p></li>
+<li><p>an author</p></li>
+<li><p>a price</p></li>
+<li><p>stock status</p></li>
+</ul>
+</section>
+<section id="create-a-simple-fake-database">
+<h3>2. Create a Simple Fake Database<a class="headerlink" href="#create-a-simple-fake-database" title="Link to this heading">#</a></h3>
+<p>For learning purposes, we can store data in a Python dictionary.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fake_books_db</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>This is not a real database, but it is useful for understanding the logic.</p>
+</section>
+<section id="create-operation">
+<h3>3. Create Operation<a class="headerlink" href="#create-operation" title="Link to this heading">#</a></h3>
+<p>The create operation uses a request body because the client must send the new book data to the server.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">book</span><span class="p">:</span> <span class="n">Book</span><span class="p">):</span>
+    <span class="n">fake_books_db</span><span class="p">[</span><span class="n">book_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">book</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book created successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">book</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Example request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">POST</span> <span class="o">/</span><span class="n">books</span><span class="o">/</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Request body:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Python Basics&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ahmad&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">29.99</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">book_id</span></code> comes from the path</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">book</span></code> comes from the request body</p></li>
+<li><p>FastAPI validates the JSON using the <code class="docutils literal notranslate"><span class="pre">Book</span></code> model</p></li>
+</ul>
+</section>
+<section id="read-operation">
+<h3>4. Read Operation<a class="headerlink" href="#read-operation" title="Link to this heading">#</a></h3>
+<p>The read operation usually does not need a request body. It often uses a path parameter to identify which resource should be returned.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">fake_books_db</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">book_id</span><span class="p">,</span> <span class="s2">&quot;Book not found&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Example request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GET</span> <span class="o">/</span><span class="n">books</span><span class="o">/</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>The client only wants to fetch existing data</p></li>
+<li><p>No body is needed here</p></li>
+<li><p>The server reads the ID from the URL</p></li>
+</ul>
+</section>
+<section id="update-operation">
+<h3>5. Update Operation<a class="headerlink" href="#update-operation" title="Link to this heading">#</a></h3>
+<p>The update operation uses a request body because the client sends new data to replace or update the old data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">book</span><span class="p">:</span> <span class="n">Book</span><span class="p">):</span>
+    <span class="n">fake_books_db</span><span class="p">[</span><span class="n">book_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">book</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book updated successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">,</span>
+        <span class="s2">&quot;updated_data&quot;</span><span class="p">:</span> <span class="n">book</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Example request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PUT</span> <span class="o">/</span><span class="n">books</span><span class="o">/</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Request body:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Advanced Python&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ahmad&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">39.99</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">book_id</span></code> tells the API which book to update</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">book</span></code> contains the new data</p></li>
+<li><p>FastAPI validates and converts the incoming JSON</p></li>
+</ul>
+</section>
+<section id="delete-operation">
+<h3>6. Delete Operation<a class="headerlink" href="#delete-operation" title="Link to this heading">#</a></h3>
+<p>The delete operation usually does not need a request body. It only needs the identifier of the resource to delete.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">delete_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">removed_book</span> <span class="o">=</span> <span class="n">fake_books_db</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">book_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book deleted successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;deleted_data&quot;</span><span class="p">:</span> <span class="n">removed_book</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Example request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DELETE</span> <span class="o">/</span><span class="n">books</span><span class="o">/</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>The API receives the book ID from the path</p></li>
+<li><p>It removes that book from the fake database</p></li>
+<li><p>No request body is required</p></li>
+</ul>
+</section>
+<section id="full-crud-example">
+<h3>7. Full CRUD Example<a class="headerlink" href="#full-crud-example" title="Link to this heading">#</a></h3>
+<p>Here is the full code together so you can understand the complete flow.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Book</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">price</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">in_stock</span><span class="p">:</span> <span class="nb">bool</span>
+
+<span class="n">fake_books_db</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">book</span><span class="p">:</span> <span class="n">Book</span><span class="p">):</span>
+    <span class="n">fake_books_db</span><span class="p">[</span><span class="n">book_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">book</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book created successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">book</span>
+    <span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">fake_books_db</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">book_id</span><span class="p">,</span> <span class="s2">&quot;Book not found&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">book</span><span class="p">:</span> <span class="n">Book</span><span class="p">):</span>
+    <span class="n">fake_books_db</span><span class="p">[</span><span class="n">book_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">book</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book updated successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">,</span>
+        <span class="s2">&quot;updated_data&quot;</span><span class="p">:</span> <span class="n">book</span>
+    <span class="p">}</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">delete_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">removed_book</span> <span class="o">=</span> <span class="n">fake_books_db</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">book_id</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book deleted successfully&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;deleted_data&quot;</span><span class="p">:</span> <span class="n">removed_book</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="why-this-example-is-important">
+<h3>8. Why This Example is Important<a class="headerlink" href="#why-this-example-is-important" title="Link to this heading">#</a></h3>
+<p>This CRUD example teaches an important idea:</p>
+<ul class="simple">
+<li><p>request body is used when the client sends structured data</p></li>
+<li><p>path parameters are used when the client identifies a resource</p></li>
+</ul>
+<p>So in practice:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span></code> often uses request body</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PUT</span></code> often uses request body</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span></code> often uses path/query parameters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DELETE</span></code> often uses path parameters</p></li>
+</ul>
+</section>
+<section id="real-world-understanding">
+<h3>9. Real-World Understanding<a class="headerlink" href="#real-world-understanding" title="Link to this heading">#</a></h3>
+<p>Imagine a real store system:</p>
+<ul class="simple">
+<li><p>Create a product → send product data in request body</p></li>
+<li><p>View a product → send product ID in path</p></li>
+<li><p>Update a product → send product ID in path and new data in request body</p></li>
+<li><p>Delete a product → send product ID in path</p></li>
+</ul>
+<p>This is the normal pattern in many APIs.</p>
+</section>
+<section id="id1">
+<h3>10. Summary<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>In CRUD operations:</p>
+<ul class="simple">
+<li><p>Create uses request body</p></li>
+<li><p>Read usually does not use request body</p></li>
+<li><p>Update uses request body</p></li>
+<li><p>Delete usually does not use request body</p></li>
+</ul>
+<p>This is why request body is such a major part of API development.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="patch-operation-partial-update">
+<h2>PATCH Operation (Partial Update)<a class="headerlink" href="#patch-operation-partial-update" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> method is used when you want to update only part of a resource, not the whole resource.</p>
+<p>This is different from <code class="docutils literal notranslate"><span class="pre">PUT</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PUT</span></code> usually sends the full updated object</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PATCH</span></code> usually sends only the fields that should change</p></li>
+</ul>
+<p>This is very useful in real applications because users often update just one or two fields.</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p>changing only the price of a product</p></li>
+<li><p>updating only the stock status</p></li>
+<li><p>editing only the title of a book</p></li>
+</ul>
+<section id="why-patch-is-useful">
+<h3>1. Why PATCH is Useful<a class="headerlink" href="#why-patch-is-useful" title="Link to this heading">#</a></h3>
+<p>Imagine you already have a book with this data:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Python Basics&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ahmad&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">29.99</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now suppose you only want to change the price.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">PUT</span></code>, you would often send the whole object again.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">PATCH</span></code>, you can send only:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">35.50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>That makes partial updates simpler and more efficient.</p>
+</section>
+<section id="create-a-model-for-partial-update">
+<h3>2. Create a Model for Partial Update<a class="headerlink" href="#create-a-model-for-partial-update" title="Link to this heading">#</a></h3>
+<p>Because <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> may update only some fields, the fields should usually be optional.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BookUpdate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">author</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">price</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">in_stock</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>every field is optional</p></li>
+<li><p>the client can send only the fields they want to change</p></li>
+</ul>
+</section>
+<section id="patch-example">
+<h3>3. PATCH Example<a class="headerlink" href="#patch-example" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;/books/</span><span class="si">{book_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">patch_book</span><span class="p">(</span><span class="n">book_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">book_update</span><span class="p">:</span> <span class="n">BookUpdate</span><span class="p">):</span>
+    <span class="n">existing_book</span> <span class="o">=</span> <span class="n">fake_books_db</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">book_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">existing_book</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book not found&quot;</span><span class="p">}</span>
+
+    <span class="n">updated_data</span> <span class="o">=</span> <span class="n">book_update</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">existing_book</span><span class="p">,</span> <span class="s2">&quot;model_dump&quot;</span><span class="p">):</span>
+        <span class="n">existing_book_data</span> <span class="o">=</span> <span class="n">existing_book</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">existing_book_data</span> <span class="o">=</span> <span class="n">existing_book</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">existing_book_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">updated_data</span><span class="p">)</span>
+    <span class="n">fake_books_db</span><span class="p">[</span><span class="n">book_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">existing_book_data</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Book updated partially&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;book_id&quot;</span><span class="p">:</span> <span class="n">book_id</span><span class="p">,</span>
+        <span class="s2">&quot;updated_data&quot;</span><span class="p">:</span> <span class="n">fake_books_db</span><span class="p">[</span><span class="n">book_id</span><span class="p">]</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="how-this-works">
+<h3>4. How This Works<a class="headerlink" href="#how-this-works" title="Link to this heading">#</a></h3>
+<p>Let’s understand the important line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">updated_data</span> <span class="o">=</span> <span class="n">book_update</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>convert the Pydantic object to a dictionary</p></li>
+<li><p>include only the fields actually sent by the client</p></li>
+</ul>
+<p>So if the client sends:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">35.50</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>then <code class="docutils literal notranslate"><span class="pre">updated_data</span></code> becomes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">35.50</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Only that field is updated.</p>
+</section>
+<section id="example-request">
+<h3>5. Example Request<a class="headerlink" href="#example-request" title="Link to this heading">#</a></h3>
+<p>Request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PATCH</span> <span class="o">/</span><span class="n">books</span><span class="o">/</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Request body:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">35.50</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This updates only:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">price</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">in_stock</span></code></p></li>
+</ul>
+<p>Other fields remain unchanged.</p>
+</section>
+<section id="id2">
+<h3>6. Real-World Understanding<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">PATCH</span></code> is useful when a user edits only one part of existing data.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>changing only a customer phone number</p></li>
+<li><p>updating only an order status</p></li>
+<li><p>editing only a product price</p></li>
+<li><p>changing only a profile photo URL</p></li>
+</ul>
+<p>In these cases, partial update is better than sending the entire object again.</p>
+</section>
+<section id="put-vs-patch">
+<h3>7. PUT vs PATCH<a class="headerlink" href="#put-vs-patch" title="Link to this heading">#</a></h3>
+<p>Here is the practical difference:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PUT</span></code> → full update</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PATCH</span></code> → partial update</p></li>
+</ul>
+<p>Example with a product:</p>
+<p>Original data:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">PUT</span></code> often means sending:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1100</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_stock&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> can mean sending only:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1100</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="best-practice">
+<h3>8. Best Practice<a class="headerlink" href="#best-practice" title="Link to this heading">#</a></h3>
+<p>A common and clean pattern is:</p>
+<ul class="simple">
+<li><p>one model for create</p></li>
+<li><p>one model for full update</p></li>
+<li><p>one model for partial update</p></li>
+</ul>
+<p>Example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BookCreate</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BookUpdate</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BookPartialUpdate</span></code></p></li>
+</ul>
+<p>This keeps your API clearer and easier to maintain.</p>
+</section>
+<section id="id3">
+<h3>9. Summary<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">PATCH</span></code> is used for partial updates.</p>
+<p>It is useful when:</p>
+<ul class="simple">
+<li><p>only some fields should change</p></li>
+<li><p>the client should not resend the whole object</p></li>
+<li><p>you want more flexible update behavior</p></li>
+</ul>
+<p>In most real APIs:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">POST</span></code> creates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GET</span></code> reads</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PUT</span></code> fully updates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PATCH</span></code> partially updates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DELETE</span></code> removes</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="query_parameters.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Query Parameters in FastAPI</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-request-body">1. What is a Request Body?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-request-body-is-important">2. Why Request Body is Important</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-pydantic-model">3. Creating a Pydantic Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-request-body-in-fastapi">4. Using Request Body in FastAPI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sending-a-request">5. Sending a Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-data-conversion">6. Automatic Data Conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validation">7. Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-fields">8. Optional Fields</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-values">9. Default Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example-order-api">10. Real-World Example (Order API)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-path-body">11. Combining Path + Body</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">12. Common Mistakes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">13. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">14. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#crud-example-with-request-body">CRUD Example with Request Body</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-pydantic-model">1. Create the Pydantic Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-simple-fake-database">2. Create a Simple Fake Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-operation">3. Create Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#read-operation">4. Read Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-operation">5. Update Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-operation">6. Delete Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-crud-example">7. Full CRUD Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-example-is-important">8. Why This Example is Important</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-understanding">9. Real-World Understanding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">10. Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#patch-operation-partial-update">PATCH Operation (Partial Update)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-patch-is-useful">1. Why PATCH is Useful</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-model-for-partial-update">2. Create a Model for Partial Update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#patch-example">3. PATCH Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-works">4. How This Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-request">5. Example Request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">6. Real-World Understanding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#put-vs-patch">7. PUT vs PATCH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practice">8. Best Practice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">9. Summary</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 Sherullah – Education Resource Center.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({
+      "gtm.start": new Date().getTime(),
+      event: "gtm.js",
+    });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(
+    window,
+    document,
+    "script",
+    "dataLayer",
+    "GTM-P4GQM59"
+  );
+</script>
+<!-- End Google Tag Manager -->
+
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

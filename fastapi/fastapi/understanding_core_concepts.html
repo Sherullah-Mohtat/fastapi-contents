@@ -1,0 +1,806 @@
+ 
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="A complete beginner-friendly guide to understanding API fundamentals in FastAPI including API, schema, JSON Schema, OpenAPI, operations, and path operations with real-world examples." name="description" />
+<meta content="FastAPI API concepts, API schema explained, JSON Schema tutorial, OpenAPI FastAPI, what is path operation, FastAPI decorator explained, backend API basics, learn FastAPI fundamentals" name="keywords" />
+<meta content="Sherullah Mohtat" name="author" />
+<meta content="index, follow" name="robots" />
+
+    <title>Understanding Core Concepts &#8212; FastAPI</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=873836d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/style.css?v=d6ed2d86" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67d5fe8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ad_style.css?v=34d129f9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/navbar-scroll.css?v=4d5946c0" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f9c1cefe"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fastapi/understanding_core_concepts';</script>
+    <script src="../_static/js/custom.js?v=6f0278c6"></script>
+    <script src="../_static/js/navbar-scroll.js?v=cb524ae2"></script>
+    <link rel="icon" href="../_static/sherullah.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Path Parameters in FastAPI" href="path_parameters.html" />
+    <link rel="prev" title="Environment Setup" href="environment_setup.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+  ><iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-P4GQM59"
+    height="0"
+    width="0"
+    style="display: none; visibility: hidden"
+  ></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav class="dask-nav container-fluid">
+  <ul>
+    <li class="logo">
+      <a href="https://docs.dask.org/">
+        <img
+          class="caption"
+          src="../_static/images/dask-horizontal-white.svg"
+        />
+      </a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/">Dask</a>
+    </li>
+
+    <li>
+      <a href="https://distributed.dask.org/">Distributed</a>
+    </li>
+
+    <li>
+      <a href="https://ml.dask.org/">Dask ML</a>
+    </li>
+
+    <li>
+      <a href="https://examples.dask.org/">Examples</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/ecosystem.html">Ecosystem</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/support.html">Community</a>
+    </li>
+  </ul>
+</nav>
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+<nav class="dask-nav container-fluid navbar-scroll-wrap">
+
+    <!-- Left arrow -->
+  <button class="scroll-btn scroll-left" id="navLeft" aria-label="Scroll left">
+    &#10094;
+  </button>
+
+  <ul class="nav-scroll" id="nav-scroll">
+
+    <!-- Home = external site
+    <li>
+      <a href="" target="_blank" rel="noopener" class="nav-icon">
+        <img src="../_static/images/logo/home48.png" alt="Home" />
+      </a>
+    </li>
+ -->
+    <!-- pathto inside repository project-->
+    <li class="">
+      <a href="../index.html">FastAPI</a>
+    </li>
+  </ul>
+
+
+  <!-- Right arrow -->
+  <button class="scroll-btn scroll-right" id="navRight" aria-label="Scroll right">
+    &#10095;
+  </button>
+</nav>
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="_static/images/dask-horizontal-white.svg">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">FastAPI</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">FastAPI Framework</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment_setup.html">Environment Setup</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Understanding Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path_parameters.html">Path Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_parameters.html">Query Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_body.html">Request Body in FastAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Understanding Core Concepts</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-api"><strong>1. What is an API?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-schema"><strong>2. What is a Schema?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-schema"><strong>3. Data Schema</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-schema"><strong>4. API Schema</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-json-schema"><strong>5. What is JSON Schema?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-openapi"><strong>6. What is OpenAPI?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-operation"><strong>7. What is an Operation?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-path-operation"><strong>8. What is a Path Operation?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-operation-decorator"><strong>9. Path Operation Decorator</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-operation-function"><strong>10. Path Operation Function</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary"><strong>Summary</strong></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="understanding-core-concepts">
+<h1>Understanding Core Concepts<a class="headerlink" href="#understanding-core-concepts" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt>Before writing APIs, you must understand these terms:</dt><dd><ul class="simple">
+<li><p>API</p></li>
+<li><p>Schema</p></li>
+<li><p>Data Schema</p></li>
+<li><p>API Schema</p></li>
+<li><p>JSON Schema</p></li>
+<li><p>OpenAPI</p></li>
+<li><p>Operation</p></li>
+<li><p>Path Operation</p></li>
+<li><p>Path Operation Decorator</p></li>
+<li><p>Path Operation Function</p></li>
+</ul>
+</dd>
+</dl>
+<p>Let’s go step by step.</p>
+<hr class="docutils" />
+<section id="what-is-an-api">
+<h2><strong>1. What is an API?</strong><a class="headerlink" href="#what-is-an-api" title="Link to this heading">#</a></h2>
+<p>API = Application Programming Interface</p>
+<dl class="simple">
+<dt>Simple meaning:</dt><dd><p>A way for two systems to communicate.</p>
+</dd>
+</dl>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>You open a food app:</dt><dd><ul class="simple">
+<li><p>You click “Get Restaurants”</p></li>
+<li><p>App sends request → Server</p></li>
+<li><p>Server sends data → App shows results</p></li>
+</ul>
+</dd>
+</dl>
+<p>That communication = API</p>
+</section>
+<hr class="docutils" />
+<section id="what-is-a-schema">
+<h2><strong>2. What is a Schema?</strong><a class="headerlink" href="#what-is-a-schema" title="Link to this heading">#</a></h2>
+<p>Schema = structure or shape of data</p>
+<dl class="simple">
+<dt>Think like:</dt><dd><p>A rule that defines what data should look like.</p>
+</dd>
+</dl>
+<p><strong>Example (Without Schema)</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ali&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>But what if someone sends:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">123</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;twenty&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Problem:</strong> inconsistent data</p>
+<hr class="docutils" />
+<p><strong>With Schema</strong></p>
+<p>You define rules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">string</span><span class="p">,</span>
+    <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="n">integer</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now data must follow this structure</p>
+</section>
+<hr class="docutils" />
+<section id="data-schema">
+<h2><strong>3. Data Schema</strong><a class="headerlink" href="#data-schema" title="Link to this heading">#</a></h2>
+<p>Data Schema = structure of data itself</p>
+<p><strong>Example:</strong></p>
+<p>User schema:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sherullah&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test@gmail.com&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>This defines:</dt><dd><ul class="simple">
+<li><p>what fields exist</p></li>
+<li><p>what type they are</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<hr class="docutils" />
+<section id="api-schema">
+<h2><strong>4. API Schema</strong><a class="headerlink" href="#api-schema" title="Link to this heading">#</a></h2>
+<p>API Schema = structure of the <strong>API itself</strong></p>
+<dl class="simple">
+<dt>It defines:</dt><dd><ul class="simple">
+<li><p>endpoints (URLs)</p></li>
+<li><p>request format</p></li>
+<li><p>response format</p></li>
+<li><p>parameters</p></li>
+<li><p>authentication</p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<p><strong>Example:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>/users
+POST<span class="w"> </span>/users
+GET<span class="w"> </span>/users/<span class="o">{</span>id<span class="o">}</span>
+</pre></div>
+</div>
+<p>This is part of API schema</p>
+</section>
+<hr class="docutils" />
+<section id="what-is-json-schema">
+<h2><strong>5. What is JSON Schema?</strong><a class="headerlink" href="#what-is-json-schema" title="Link to this heading">#</a></h2>
+<p>JSON Schema = a standard way to describe JSON data</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is a machine-readable schema</p>
+</section>
+<hr class="docutils" />
+<section id="what-is-openapi">
+<h2><strong>6. What is OpenAPI?</strong><a class="headerlink" href="#what-is-openapi" title="Link to this heading">#</a></h2>
+<p>OpenAPI = a <strong>standard format to describe APIs</strong></p>
+<dl class="simple">
+<dt>Think like:</dt><dd><p>A complete blueprint of your API</p>
+</dd>
+<dt>It includes:</dt><dd><ul class="simple">
+<li><p>endpoints</p></li>
+<li><p>parameters</p></li>
+<li><p>request body</p></li>
+<li><p>responses</p></li>
+<li><p>authentication</p></li>
+<li><p>schemas</p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="simple">
+<dt>Real Meaning:</dt><dd><p>OpenAPI is like a contract between frontend and backend</p>
+</dd>
+<dt>Important:</dt><dd><p>FastAPI automatically generates OpenAPI for you.</p>
+</dd>
+</dl>
+<p>You don’t write it manually.</p>
+<p><strong>Where to see it?</strong></p>
+<p><a class="reference external" href="http://127.0.0.1:8000/openapi.json">http://127.0.0.1:8000/openapi.json</a></p>
+<p><a class="reference external" href="http://127.0.0.1:8000/docs">http://127.0.0.1:8000/docs</a> (Swagger UI)</p>
+<hr class="docutils" />
+<p><strong>Relationship</strong></p>
+<dl class="simple">
+<dt>Let’s connect everything:</dt><dd><ul class="simple">
+<li><p>JSON Schema → describes data</p></li>
+<li><p>OpenAPI → describes API</p></li>
+<li><p>API Schema → overall structure of API</p></li>
+<li><p>Data Schema → structure of data inside API</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<hr class="docutils" />
+<section id="what-is-an-operation">
+<h2><strong>7. What is an Operation?</strong><a class="headerlink" href="#what-is-an-operation" title="Link to this heading">#</a></h2>
+<p>Operation = <strong>one action of an API</strong></p>
+<dl class="simple">
+<dt>Example:</dt><dd><ul class="simple">
+<li><p>GET /users → get users</p></li>
+<li><p>POST /users → create user</p></li>
+</ul>
+</dd>
+</dl>
+<p>Each one = <strong>operation</strong></p>
+</section>
+<hr class="docutils" />
+<section id="what-is-a-path-operation">
+<h2><strong>8. What is a Path Operation?</strong><a class="headerlink" href="#what-is-a-path-operation" title="Link to this heading">#</a></h2>
+<p>Path Operation = operation tied to a URL path</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>GET<span class="w"> </span>/items
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Path → /items</p></li>
+<li><p>Operation → GET</p></li>
+</ul>
+<p>Together = Path Operation</p>
+</section>
+<hr class="docutils" />
+<section id="path-operation-decorator">
+<h2><strong>9. Path Operation Decorator</strong><a class="headerlink" href="#path-operation-decorator" title="Link to this heading">#</a></h2>
+<p>Now we enter FastAPI.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/items&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is called a <strong>Path Operation Decorator</strong></p>
+<hr class="docutils" />
+<p><strong>Why?</strong></p>
+<dl class="simple">
+<dt>Because it:</dt><dd><ul class="simple">
+<li><p>defines the path (/items)</p></li>
+<li><p>defines the method (GET)</p></li>
+<li><p>attaches behavior to function</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<hr class="docutils" />
+<section id="path-operation-function">
+<h2><strong>10. Path Operation Function</strong><a class="headerlink" href="#path-operation-function" title="Link to this heading">#</a></h2>
+<p>This is the function below the decorator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/items&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_items</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>This function:</dt><dd><ul class="simple">
+<li><p>runs when API is called</p></li>
+<li><p>returns response</p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<p><strong>Full Flow</strong></p>
+<p>Let’s connect everything:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/users&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_users</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Ali&quot;</span><span class="p">}]</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl>
+<dt>What happens:</dt><dd><ol class="arabic simple">
+<li><p>User hits /users</p></li>
+<li><p>FastAPI sees:</p></li>
+</ol>
+<ul class="simple">
+<li><p>path = /users</p></li>
+<li><p>method = GET</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>It calls function get_users()</p></li>
+<li><p>Returns data</p></li>
+<li><p>FastAPI converts it to JSON</p></li>
+<li><p>OpenAPI automatically documents it</p></li>
+</ol>
+</dd>
+</dl>
+<hr class="docutils" />
+<p><strong>Real-World Example</strong></p>
+<dl class="simple">
+<dt>Imagine:</dt><dd><p>Food delivery app</p>
+</dd>
+<dt>API:</dt><dd><ul class="simple">
+<li><p>GET /restaurants</p></li>
+<li><p>GET /menu</p></li>
+<li><p>POST /order</p></li>
+</ul>
+</dd>
+<dt>Each is:</dt><dd><ul class="simple">
+<li><p>operation</p></li>
+<li><p>part of OpenAPI</p></li>
+<li><p>uses schema</p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<p><strong>Common Confusion</strong></p>
+<p>✖ Schema = only database</p>
+<p>✖ OpenAPI = only docs</p>
+<p>✔ Schema = data structure</p>
+<p>✔ OpenAPI = full API definition</p>
+<p>✔ FastAPI uses both automatically</p>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h2><strong>Summary</strong><a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>API → communication between systems</p></li>
+<li><p>Schema → structure of data</p></li>
+<li><p>JSON Schema → format for JSON structure</p></li>
+<li><p>OpenAPI → full API blueprint</p></li>
+<li><p>Operation → single API action</p></li>
+<li><p>Path Operation → action + URL</p></li>
+<li><p>Decorator → defines route</p></li>
+<li><p>Function → handles request</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="environment_setup.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Environment Setup</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="path_parameters.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Path Parameters in FastAPI</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-api"><strong>1. What is an API?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-schema"><strong>2. What is a Schema?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-schema"><strong>3. Data Schema</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-schema"><strong>4. API Schema</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-json-schema"><strong>5. What is JSON Schema?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-openapi"><strong>6. What is OpenAPI?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-an-operation"><strong>7. What is an Operation?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-path-operation"><strong>8. What is a Path Operation?</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-operation-decorator"><strong>9. Path Operation Decorator</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#path-operation-function"><strong>10. Path Operation Function</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary"><strong>Summary</strong></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 Sherullah – Education Resource Center.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({
+      "gtm.start": new Date().getTime(),
+      event: "gtm.js",
+    });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(
+    window,
+    document,
+    "script",
+    "dataLayer",
+    "GTM-P4GQM59"
+  );
+</script>
+<!-- End Google Tag Manager -->
+
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
