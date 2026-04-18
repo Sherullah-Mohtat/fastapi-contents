@@ -37,6 +37,7 @@ Welcome to FastAPI Framework
    fastapi/path_parameters.rst
    fastapi/query_parameters.rst
    fastapi/request_body.rst
+   fastapi/query_parameters_and_string_validation.rst
 
 
 

@@ -1,0 +1,1228 @@
+ 
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Learn query parameters and string validation in FastAPI with simple explanations, practical examples, and real-world use cases." name="description" />
+<meta content="FastAPI query validation, FastAPI string validation, FastAPI Query, FastAPI Annotated, query parameter length validation, FastAPI tutorial" name="keywords" />
+<meta content="Sherullah Mohtat" name="author" />
+<meta content="index, follow" name="robots" />
+
+    <title>Query Parameters and String Validation in FastAPI &#8212; FastAPI</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=873836d9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/style.css?v=d6ed2d86" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=67d5fe8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/ad_style.css?v=34d129f9" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/navbar-scroll.css?v=4d5946c0" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=f9c1cefe"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'fastapi/query_parameters_and_string_validation';</script>
+    <script src="../_static/js/custom.js?v=6f0278c6"></script>
+    <script src="../_static/js/navbar-scroll.js?v=cb524ae2"></script>
+    <link rel="icon" href="../_static/sherullah.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Request Body in FastAPI" href="request_body.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+<!-- Google Tag Manager (noscript) -->
+<noscript
+  ><iframe
+    src="https://www.googletagmanager.com/ns.html?id=GTM-P4GQM59"
+    height="0"
+    width="0"
+    style="display: none; visibility: hidden"
+  ></iframe
+></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav class="dask-nav container-fluid">
+  <ul>
+    <li class="logo">
+      <a href="https://docs.dask.org/">
+        <img
+          class="caption"
+          src="../_static/images/dask-horizontal-white.svg"
+        />
+      </a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/">Dask</a>
+    </li>
+
+    <li>
+      <a href="https://distributed.dask.org/">Distributed</a>
+    </li>
+
+    <li>
+      <a href="https://ml.dask.org/">Dask ML</a>
+    </li>
+
+    <li>
+      <a href="https://examples.dask.org/">Examples</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/ecosystem.html">Ecosystem</a>
+    </li>
+
+    <li>
+      <a href="https://docs.dask.org/en/latest/support.html">Community</a>
+    </li>
+  </ul>
+</nav>
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+<nav class="dask-nav container-fluid navbar-scroll-wrap">
+
+    <!-- Left arrow -->
+  <button class="scroll-btn scroll-left" id="navLeft" aria-label="Scroll left">
+    &#10094;
+  </button>
+
+  <ul class="nav-scroll" id="nav-scroll">
+
+    <!-- Home = external site
+    <li>
+      <a href="" target="_blank" rel="noopener" class="nav-icon">
+        <img src="../_static/images/logo/home48.png" alt="Home" />
+      </a>
+    </li>
+ -->
+    <!-- pathto inside repository project-->
+    <li class="">
+      <a href="../index.html">FastAPI</a>
+    </li>
+  </ul>
+
+
+  <!-- Right arrow -->
+  <button class="scroll-btn scroll-right" id="navRight" aria-label="Scroll right">
+    &#10095;
+  </button>
+</nav>
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="_static/images/dask-horizontal-white.svg">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">FastAPI</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">FastAPI Framework</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment_setup.html">Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="understanding_core_concepts.html">Understanding Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="path_parameters.html">Path Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query_parameters.html">Query Parameters in FastAPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request_body.html">Request Body in FastAPI</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Query Parameters and String Validation in FastAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Query Parameters and String Validation in FastAPI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-string-validation-matters">1. Why String Validation Matters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-query-string-example">2. Basic Query String Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-validation-rules">3. Adding Validation Rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-query-instead-of-a-plain-default-value">4. Why Use Query Instead of a Plain Default Value?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-annotated-for-cleaner-code">5. Using Annotated for Cleaner Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-fastapi-helpers-used-with-annotated">Common FastAPI Helpers Used with Annotated</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#query">Query</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#path">Path</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#body">Body</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#header">Header</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cookie">Cookie</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#form">Form</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file">File</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#depends">Depends</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#security">Security</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-and-maximum-length">6. Minimum and Maximum Length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example-product-search">7. Real-World Example: Product Search</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-pattern-rule">8. Adding a Pattern Rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-values">9. Default Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-query-parameters">10. Required Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-but-can-be-none">11. Required but Can Be None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-values-in-query-parameters">12. Multiple Values in Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-metadata">13. Adding Metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alias-parameters">14. Alias Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">15. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-validation-where-plain-parameters-are-enough">Using validation where plain parameters are enough</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forgetting-that-query-values-arrive-as-text">Forgetting that query values arrive as text</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-validation-too-strict">Making validation too strict</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-unclear-parameter-names">Using unclear parameter names</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">16. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">17. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-it-yourself">18. Try It Yourself</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="query-parameters-and-string-validation-in-fastapi">
+<h1>Query Parameters and String Validation in FastAPI<a class="headerlink" href="#query-parameters-and-string-validation-in-fastapi" title="Link to this heading">#</a></h1>
+<p>Query parameters are often used to search, filter, and control API results. In many real applications, these values should not be accepted without rules. For example, a search keyword may need a minimum or maximum length, or a sorting option may need to match a specific pattern.</p>
+<p>FastAPI allows you to add these rules clearly and cleanly.</p>
+<section id="why-string-validation-matters">
+<h2>1. Why String Validation Matters<a class="headerlink" href="#why-string-validation-matters" title="Link to this heading">#</a></h2>
+<p>In real APIs, query parameters are often entered by users or frontend applications. Because of that, they can be empty, too long, malformed, or simply not useful.</p>
+<p>Imagine a product search API.</p>
+<p>If someone sends:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/products/search?q=
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/products/search?q=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+</pre></div>
+</div>
+<p>the backend may receive a value that is not helpful.</p>
+<p>Validation helps you control this.</p>
+<p>It allows you to say things like:</p>
+<ul class="simple">
+<li><p>this text can be optional</p></li>
+<li><p>this text must not exceed a certain length</p></li>
+<li><p>this text must have a minimum number of characters</p></li>
+<li><p>this text must follow a pattern</p></li>
+</ul>
+</section>
+<section id="basic-query-string-example">
+<h2>2. Basic Query String Example<a class="headerlink" href="#basic-query-string-example" title="Link to this heading">#</a></h2>
+<p>Let us begin with a simple search endpoint.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/products/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_products</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;search_term&quot;</span><span class="p">:</span> <span class="n">q</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span></code> is a query parameter</p></li>
+<li><p>it is optional because its default value is <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p>the user may call the route with or without a search keyword</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/products/search
+/products/search?q=phone
+</pre></div>
+</div>
+</section>
+<section id="adding-validation-rules">
+<h2>3. Adding Validation Rules<a class="headerlink" href="#adding-validation-rules" title="Link to this heading">#</a></h2>
+<p>Sometimes you want to control how long the query text can be.</p>
+<p>For example, maybe your search input should not be more than 30 characters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Query</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/products/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_products</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;search_term&quot;</span><span class="p">:</span> <span class="n">q</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Query(...)</span></code> is used when you want more control over a query parameter</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_length=30</span></code> means the text cannot be longer than 30 characters</p></li>
+</ul>
+<p>This is useful for search boxes, promo codes, usernames, and tags.</p>
+</section>
+<section id="why-use-query-instead-of-a-plain-default-value">
+<h2>4. Why Use Query Instead of a Plain Default Value?<a class="headerlink" href="#why-use-query-instead-of-a-plain-default-value" title="Link to this heading">#</a></h2>
+<p>A plain default value makes a parameter optional, but it does not give you extra validation rules.</p>
+<p>Example without validation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/articles&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_articles</span><span class="p">(</span><span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="n">keyword</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Example with validation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/articles&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_articles</span><span class="p">(</span><span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="n">keyword</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The second version is more powerful because now the API checks the length of the input automatically.</p>
+</section>
+<section id="using-annotated-for-cleaner-code">
+<h2>5. Using Annotated for Cleaner Code<a class="headerlink" href="#using-annotated-for-cleaner-code" title="Link to this heading">#</a></h2>
+<p>When your parameters become more descriptive, the code can get harder to read. <code class="docutils literal notranslate"><span class="pre">Annotated</span></code> helps make the meaning clearer.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Query</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/jobs/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_jobs</span><span class="p">(</span>
+    <span class="n">keyword</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">25</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="n">keyword</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>the type is still <code class="docutils literal notranslate"><span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span></code></p></li>
+<li><p>the validation rules are placed inside <code class="docutils literal notranslate"><span class="pre">Query(...)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Annotated</span></code> connects both cleanly</p></li>
+</ul>
+<p>This style becomes especially helpful when you add more metadata later.</p>
+<section id="common-fastapi-helpers-used-with-annotated">
+<h3>Common FastAPI Helpers Used with Annotated<a class="headerlink" href="#common-fastapi-helpers-used-with-annotated" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">parameter</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">FastAPI_helper</span><span class="p">(</span><span class="o">...</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>When using Annotated[…], FastAPI allows you to attach extra information that tells where data comes from and how it should be validated. Below are the most commonly used helpers:</p>
+<section id="query">
+<h4>Query<a class="headerlink" href="#query" title="Link to this heading">#</a></h4>
+<p>Used to get values from the URL query string (after ?).</p>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>/search?keyword=python</dt><dd><ul class="simple">
+<li><p>Comes from the URL</p></li>
+<li><p>Commonly used for filtering, searching, and pagination</p></li>
+<li><p>Supports validation like min_length, max_length</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Query</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
+    <span class="n">keyword</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">25</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="n">keyword</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/search?keyword<span class="o">=</span>python
+</pre></div>
+</div>
+</section>
+<section id="path">
+<h4>Path<a class="headerlink" href="#path" title="Link to this heading">#</a></h4>
+<p>Used to get values directly from the URL path.</p>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>/items/10</dt><dd><ul class="simple">
+<li><p>Identifies a specific resource</p></li>
+<li><p>Usually required (no default value)</p></li>
+<li><p>Supports numeric validation like gt, lt</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/items/</span><span class="si">{item_id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_item</span><span class="p">(</span>
+    <span class="n">item_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;item_id&quot;</span><span class="p">:</span> <span class="n">item_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Request:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/items/10
+</pre></div>
+</div>
+</section>
+<section id="body">
+<h4>Body<a class="headerlink" href="#body" title="Link to this heading">#</a></h4>
+<p>Used to receive data from the request body (usually JSON).</p>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>POST /items with JSON data</dt><dd><ul class="simple">
+<li><p>Used when sending structured data (e.g., objects)</p></li>
+<li><p>Common in create/update operations</p></li>
+<li><p>Supports validation rules for each field</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Body</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/items&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_item</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Body</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">)],</span>
+    <span class="n">price</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Body</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="n">price</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Request body:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Laptop&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">999.99</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="header">
+<h4>Header<a class="headerlink" href="#header" title="Link to this heading">#</a></h4>
+<p>Used to read values from HTTP request headers.</p>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>User-Agent: Chrome</dt><dd><ul class="simple">
+<li><p>Contains metadata about the request</p></li>
+<li><p>Often used for authentication, tracking, or client info</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Header</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/user-agent&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_user_agent</span><span class="p">(</span>
+    <span class="n">user_agent</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Header</span><span class="p">()]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user_agent&quot;</span><span class="p">:</span> <span class="n">user_agent</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Header sent automatically by browser:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>User-Agent:<span class="w"> </span>Mozilla/5.0
+</pre></div>
+</div>
+</section>
+<section id="cookie">
+<h4>Cookie<a class="headerlink" href="#cookie" title="Link to this heading">#</a></h4>
+<p>Used to read values stored in browser cookies.</p>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>session_id=abc123</dt><dd><ul class="simple">
+<li><p>Maintains session or user state</p></li>
+<li><p>Automatically sent by the browser with requests</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Cookie</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/profile&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_profile</span><span class="p">(</span>
+    <span class="n">session_id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Cookie</span><span class="p">()]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;session_id&quot;</span><span class="p">:</span> <span class="n">session_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Cookie:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">session_id</span><span class="o">=</span>abc123
+</pre></div>
+</div>
+</section>
+<section id="form">
+<h4>Form<a class="headerlink" href="#form" title="Link to this heading">#</a></h4>
+<p>Used to receive data submitted via HTML forms.</p>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>application/x-www-form-urlencoded</dt><dd><ul class="simple">
+<li><p>Common in login forms (username/password)</p></li>
+<li><p>Different from JSON body</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Form</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/login&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span>
+    <span class="n">username</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Form</span><span class="p">()],</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Form</span><span class="p">()]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Form data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">username</span><span class="o">=</span>admin<span class="p">&amp;</span><span class="nv">password</span><span class="o">=</span><span class="m">1234</span>
+</pre></div>
+</div>
+</section>
+<section id="file">
+<h4>File<a class="headerlink" href="#file" title="Link to this heading">#</a></h4>
+<p>Used to upload files from the client.</p>
+<p><strong>Example:</strong></p>
+<dl class="simple">
+<dt>Uploading an image or PDF</dt><dd><ul class="simple">
+<li><p>Works with UploadFile for better performance</p></li>
+<li><p>Used in file upload APIs</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">File</span><span class="p">,</span> <span class="n">UploadFile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/upload&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">upload_file</span><span class="p">(</span>
+    <span class="n">file</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">UploadFile</span><span class="p">,</span> <span class="n">File</span><span class="p">()]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">file</span><span class="o">.</span><span class="n">filename</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Upload a file (image, PDF, etc.)</p>
+</section>
+<section id="depends">
+<h4>Depends<a class="headerlink" href="#depends" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>Used for dependency injection.</dt><dd><ul class="simple">
+<li><p>Allows reuse of logic across endpoints</p></li>
+<li><p>Common use cases:</p></li>
+<li><p>Database connections</p></li>
+<li><p>Authentication checks</p></li>
+<li><p>Shared business logic</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Depends</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_current_user</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Sherullah&quot;</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/dashboard&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dashboard</span><span class="p">(</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_current_user</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Logic from get_current_user() is automatically used</p>
+</section>
+<section id="security">
+<h4>Security<a class="headerlink" href="#security" title="Link to this heading">#</a></h4>
+<dl class="simple">
+<dt>Used for authentication and authorization.</dt><dd><ul class="simple">
+<li><p>Built on top of Depends</p></li>
+<li><p>Supports:</p></li>
+<li><p>OAuth2</p></li>
+<li><p>API keys</p></li>
+<li><p>JWT tokens</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Security</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIKeyHeader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+
+<span class="n">api_key_header</span> <span class="o">=</span> <span class="n">APIKeyHeader</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;X-API-Key&quot;</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/secure-data&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">secure_data</span><span class="p">(</span>
+    <span class="n">api_key</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Security</span><span class="p">(</span><span class="n">api_key_header</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;api_key&quot;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Request header:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>X-API-Key:<span class="w"> </span>mysecretkey
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="minimum-and-maximum-length">
+<h2>6. Minimum and Maximum Length<a class="headerlink" href="#minimum-and-maximum-length" title="Link to this heading">#</a></h2>
+<p>Length validation is one of the most practical validations for string query parameters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/cities/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_cities</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;city_name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>What this means:</p>
+<ul class="simple">
+<li><p>at least 2 characters</p></li>
+<li><p>at most 15 characters</p></li>
+</ul>
+<p>Valid examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/cities/search?name=Rome
+/cities/search?name=Kabul
+</pre></div>
+</div>
+<p>Invalid example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/cities/search?name=A
+</pre></div>
+</div>
+<p>That fails because the value is too short.</p>
+</section>
+<section id="real-world-example-product-search">
+<h2>7. Real-World Example: Product Search<a class="headerlink" href="#real-world-example-product-search" title="Link to this heading">#</a></h2>
+<p>Let us make it feel more realistic.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/store/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">store_search</span><span class="p">(</span>
+    <span class="n">q</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">40</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Search request received&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">q</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Why this is useful:</p>
+<ul class="simple">
+<li><p>prevents extremely short useless searches</p></li>
+<li><p>prevents extremely long search text</p></li>
+<li><p>keeps input cleaner for your backend logic</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/store/search?q=wireless mouse
+</pre></div>
+</div>
+</section>
+<section id="adding-a-pattern-rule">
+<h2>8. Adding a Pattern Rule<a class="headerlink" href="#adding-a-pattern-rule" title="Link to this heading">#</a></h2>
+<p>Sometimes length is not enough. You may want the text to match a certain format.</p>
+<p>For example, suppose a coupon search should contain only uppercase letters and numbers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/coupons/check&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_coupon</span><span class="p">(</span>
+    <span class="n">code</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s2">&quot;^[A-Z0-9]+$&quot;</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;coupon_code&quot;</span><span class="p">:</span> <span class="n">code</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pattern=...</span></code> applies a regular expression rule</p></li>
+<li><p>in this example, only uppercase letters and digits are allowed</p></li>
+</ul>
+<p>Valid examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/coupons/check?code=SAVE10
+/coupons/check?code=DISCOUNT2025
+</pre></div>
+</div>
+<p>Invalid example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/coupons/check?code=save-10
+</pre></div>
+</div>
+<p>That fails because it contains lowercase letters and a hyphen.</p>
+</section>
+<section id="default-values">
+<h2>9. Default Values<a class="headerlink" href="#default-values" title="Link to this heading">#</a></h2>
+<p>You can still use validation with default values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/blog/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_blog</span><span class="p">(</span>
+    <span class="n">q</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">25</span><span class="p">)]</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">q</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>if the user sends nothing, the default search term is <code class="docutils literal notranslate"><span class="pre">python</span></code></p></li>
+<li><p>if the user sends a value, it must still follow the rules</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/blog/search
+/blog/search?q=fastapi
+</pre></div>
+</div>
+</section>
+<section id="required-query-parameters">
+<h2>10. Required Query Parameters<a class="headerlink" href="#required-query-parameters" title="Link to this heading">#</a></h2>
+<p>If a query parameter must always be provided, you can mark it as required.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/inventory/find&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_inventory_item</span><span class="p">(</span>
+    <span class="n">sku</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">12</span><span class="p">)]</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;sku&quot;</span><span class="p">:</span> <span class="n">sku</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>there is no default value</p></li>
+<li><p>so the client must send the query parameter</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/inventory/find?sku=A102
+</pre></div>
+</div>
+<p>If the client does not provide <code class="docutils literal notranslate"><span class="pre">sku</span></code>, FastAPI returns an error.</p>
+</section>
+<section id="required-but-can-be-none">
+<h2>11. Required but Can Be None<a class="headerlink" href="#required-but-can-be-none" title="Link to this heading">#</a></h2>
+<p>This is less common, but sometimes you may want a parameter to exist while still allowing a null-like value in some designs.</p>
+<p>For beginner tutorials, it is usually better not to focus too much on this case at first. In most practical APIs, you will normally choose one of these:</p>
+<ul class="simple">
+<li><p>optional with a default</p></li>
+<li><p>required without a default</p></li>
+</ul>
+<p>That keeps your API clearer.</p>
+</section>
+<section id="multiple-values-in-query-parameters">
+<h2>12. Multiple Values in Query Parameters<a class="headerlink" href="#multiple-values-in-query-parameters" title="Link to this heading">#</a></h2>
+<p>Sometimes a query parameter can be repeated.</p>
+<p>For example, a user may want to filter by multiple tags.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/posts/filter&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_posts</span><span class="p">(</span><span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">tags</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/posts/filter?tags=python&amp;tags=api&amp;tags=fastapi
+</pre></div>
+</div>
+<p>Response idea:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;api&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;fastapi&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is useful for:</p>
+<ul class="simple">
+<li><p>category filters</p></li>
+<li><p>tags</p></li>
+<li><p>selected brands</p></li>
+<li><p>selected colors</p></li>
+</ul>
+</section>
+<section id="adding-metadata">
+<h2>13. Adding Metadata<a class="headerlink" href="#adding-metadata" title="Link to this heading">#</a></h2>
+<p>You can also describe query parameters for your API documentation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/courses/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search_courses</span><span class="p">(</span>
+    <span class="n">q</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">Query</span><span class="p">(</span>
+            <span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Course Search Keyword&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enter a keyword to search course titles&quot;</span>
+        <span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">q</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This improves the automatic docs shown in Swagger UI.</p>
+</section>
+<section id="alias-parameters">
+<h2>14. Alias Parameters<a class="headerlink" href="#alias-parameters" title="Link to this heading">#</a></h2>
+<p>Sometimes the public API name should be different from the Python variable name.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/products/filter&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_products</span><span class="p">(</span>
+    <span class="n">search_text</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Query</span><span class="p">(</span><span class="n">alias</span><span class="o">=</span><span class="s2">&quot;q&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;search_text&quot;</span><span class="p">:</span> <span class="n">search_text</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Example request:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/products/filter?q=laptop
+</pre></div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p>users send <code class="docutils literal notranslate"><span class="pre">q</span></code></p></li>
+<li><p>Python uses <code class="docutils literal notranslate"><span class="pre">search_text</span></code></p></li>
+</ul>
+<p>This can make your code more readable without changing the public API.</p>
+</section>
+<section id="common-mistakes">
+<h2>15. Common Mistakes<a class="headerlink" href="#common-mistakes" title="Link to this heading">#</a></h2>
+<section id="using-validation-where-plain-parameters-are-enough">
+<h3>Using validation where plain parameters are enough<a class="headerlink" href="#using-validation-where-plain-parameters-are-enough" title="Link to this heading">#</a></h3>
+<p>Not every query parameter needs many rules. Keep it simple when possible.</p>
+</section>
+<section id="forgetting-that-query-values-arrive-as-text">
+<h3>Forgetting that query values arrive as text<a class="headerlink" href="#forgetting-that-query-values-arrive-as-text" title="Link to this heading">#</a></h3>
+<p>Even if a value looks like a number or a boolean in the URL, it starts as text and FastAPI converts it based on your type hints.</p>
+</section>
+<section id="making-validation-too-strict">
+<h3>Making validation too strict<a class="headerlink" href="#making-validation-too-strict" title="Link to this heading">#</a></h3>
+<p>If the rules are too narrow, valid user inputs may be rejected unnecessarily.</p>
+</section>
+<section id="using-unclear-parameter-names">
+<h3>Using unclear parameter names<a class="headerlink" href="#using-unclear-parameter-names" title="Link to this heading">#</a></h3>
+<p>This is weak:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>This is better:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/search&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="n">keyword</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="n">keyword</span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="best-practices">
+<h2>16. Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>use clear names like <code class="docutils literal notranslate"><span class="pre">keyword</span></code>, <code class="docutils literal notranslate"><span class="pre">category</span></code>, <code class="docutils literal notranslate"><span class="pre">code</span></code>, or <code class="docutils literal notranslate"><span class="pre">sku</span></code></p></li>
+<li><p>add validation where bad input is likely</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">Annotated</span></code> for cleaner modern code</p></li>
+<li><p>keep validation rules meaningful, not excessive</p></li>
+<li><p>use examples from real business logic when teaching</p></li>
+</ul>
+</section>
+<section id="summary">
+<h2>17. Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>In this tutorial, you learned how to work with query parameters that need extra rules.</p>
+<p>You learned:</p>
+<ul class="simple">
+<li><p>why string validation matters</p></li>
+<li><p>how to use <code class="docutils literal notranslate"><span class="pre">Query(...)</span></code></p></li>
+<li><p>how to apply minimum and maximum length</p></li>
+<li><p>how to use <code class="docutils literal notranslate"><span class="pre">Annotated</span></code> for cleaner declarations</p></li>
+<li><p>how to require certain formats with patterns</p></li>
+<li><p>how to use default values and required parameters</p></li>
+<li><p>how to accept multiple values</p></li>
+<li><p>how to improve docs with metadata</p></li>
+</ul>
+</section>
+<section id="try-it-yourself">
+<h2>18. Try It Yourself<a class="headerlink" href="#try-it-yourself" title="Link to this heading">#</a></h2>
+<p>Practice these one by one.</p>
+<section id="exercise-1">
+<h3>Exercise 1<a class="headerlink" href="#exercise-1" title="Link to this heading">#</a></h3>
+<p>Create a route for searching books.</p>
+<p>Requirements:</p>
+<ul class="simple">
+<li><p>endpoint: <code class="docutils literal notranslate"><span class="pre">/books/search</span></code></p></li>
+<li><p>query parameter: <code class="docutils literal notranslate"><span class="pre">keyword</span></code></p></li>
+<li><p>minimum length: 3</p></li>
+<li><p>maximum length: 20</p></li>
+</ul>
+</section>
+<section id="exercise-2">
+<h3>Exercise 2<a class="headerlink" href="#exercise-2" title="Link to this heading">#</a></h3>
+<p>Create a route for checking discount codes.</p>
+<p>Requirements:</p>
+<ul class="simple">
+<li><p>endpoint: <code class="docutils literal notranslate"><span class="pre">/discounts/check</span></code></p></li>
+<li><p>query parameter: <code class="docutils literal notranslate"><span class="pre">code</span></code></p></li>
+<li><p>only uppercase letters and digits allowed</p></li>
+</ul>
+</section>
+<section id="exercise-3">
+<h3>Exercise 3<a class="headerlink" href="#exercise-3" title="Link to this heading">#</a></h3>
+<p>Create a route that accepts multiple categories.</p>
+<p>Requirements:</p>
+<ul class="simple">
+<li><p>endpoint: <code class="docutils literal notranslate"><span class="pre">/items/filter</span></code></p></li>
+<li><p>query parameter: <code class="docutils literal notranslate"><span class="pre">category</span></code></p></li>
+<li><p>allow multiple values in the same URL</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="request_body.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Request Body in FastAPI</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-string-validation-matters">1. Why String Validation Matters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-query-string-example">2. Basic Query String Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-validation-rules">3. Adding Validation Rules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-query-instead-of-a-plain-default-value">4. Why Use Query Instead of a Plain Default Value?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-annotated-for-cleaner-code">5. Using Annotated for Cleaner Code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-fastapi-helpers-used-with-annotated">Common FastAPI Helpers Used with Annotated</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#query">Query</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#path">Path</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#body">Body</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#header">Header</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cookie">Cookie</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#form">Form</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file">File</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#depends">Depends</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#security">Security</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimum-and-maximum-length">6. Minimum and Maximum Length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-example-product-search">7. Real-World Example: Product Search</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-pattern-rule">8. Adding a Pattern Rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#default-values">9. Default Values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-query-parameters">10. Required Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-but-can-be-none">11. Required but Can Be None</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-values-in-query-parameters">12. Multiple Values in Query Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-metadata">13. Adding Metadata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alias-parameters">14. Alias Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">15. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-validation-where-plain-parameters-are-enough">Using validation where plain parameters are enough</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forgetting-that-query-values-arrive-as-text">Forgetting that query values arrive as text</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-validation-too-strict">Making validation too strict</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-unclear-parameter-names">Using unclear parameter names</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">16. Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">17. Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#try-it-yourself">18. Try It Yourself</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1">Exercise 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2">Exercise 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3">Exercise 3</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024 Sherullah – Education Resource Center.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+<!-- Google Tag Manager -->
+<script>
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({
+      "gtm.start": new Date().getTime(),
+      event: "gtm.js",
+    });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(
+    window,
+    document,
+    "script",
+    "dataLayer",
+    "GTM-P4GQM59"
+  );
+</script>
+<!-- End Google Tag Manager -->
+
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
